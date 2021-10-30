@@ -21,10 +21,23 @@
                 @Html.ActionLink("Nazwa aplikacji", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
+                <ul class="nav navbar-nav ml-auto mr-auto">
                     <li>@Html.ActionLink("Informacje", "About", "Home")</li>
                     <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                    <li>
+                        @using (Html.BeginForm("BookList", "Book"))
+                        {
+                            <div class="form-inline" style="margin-top: 6px;">
+                                <input class="form-control mr-sm-2" type="search" name="input" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                <select class="form-control" name="selectedValue" aria-label="Default select example">
+                                    <option value="title">Title</option>
+                                    <option value="isbn">ISBN</option>
+                                    <option value="author">Author</option>
+                                </select>
+                            </div>
+                        }
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
