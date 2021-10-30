@@ -3,9 +3,14 @@
     ViewBag.Title = "Zarządzaj";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2>@ViewBag.Title</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
+<ul class="nav nav-pills">
+    <li id="home" role="presentation" class=""><a href="#">Home</a></li>
+    <li id="profile" role="presentation" class=""><a href="#">Profile</a></li>
+    <li id="messages" role="presentation" class=""><a href="#">Messages</a></li>
+</ul>
 <div>
     <h4>Zmień ustawienia konta</h4>
     <hr />
@@ -30,13 +35,13 @@
         </dd>
         @*
             Numery telefonów mogą być używane jako drugi składnik w systemach uwierzytelniania dwuskładnikowego.
-             
+
              Zobacz <a href="https://go.microsoft.com/fwlink/?LinkId=403804">ten artykuł</a>,
                         aby uzyskać szczegółowe informacje na temat konfigurowania tej aplikacji ASP.NET pod kątem obsługi uwierzytelniania dwuskładnikowego przy użyciu wiadomości SMS.
-             
+
              Usuń komentarz z następującego bloku po skonfigurowaniu uwierzytelniania dwuskładnikowego
         *@
-        @*  
+        @*
             <dt>Numer telefonu:</dt>
             <dd>
                 @(Model.PhoneNumber ?? "None")
@@ -85,3 +90,26 @@
         </dd>
     </dl>
 </div>
+@section Scripts {
+    <script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        $("#home").click(function () {
+            $("#home").addClass('active')
+            $("#profile").removeClass('active');
+            $("#messages").removeClass('active');
+        });
+        $("#profile").click(function () {
+            $("#home").removeClass('active')
+            $("#profile").addClass('active');
+            $("#messages").removeClass('active');
+        });
+        $("#messages").click(function () {
+            $("#home").removeClass('active')
+            $("#profile").removeClass('active');
+            $("#messages").addClass('active');
+        });
+    });
+
+    </script>
+}
