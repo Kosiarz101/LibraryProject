@@ -1,9 +1,10 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="~/Content/custom.css">
     <title>@ViewBag.Title - moja aplikacja platformy ASP.NET</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -24,12 +25,14 @@
                 <ul class="nav navbar-nav ml-auto mr-auto">
                     <li>@Html.ActionLink("Informacje", "About", "Home")</li>
                     <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
-                    <li>
-                        @using (Html.BeginForm("BookList", "Book"))
+                    <li style="position: absolute; left: 42%; margin-top: 2px">
+                        @using (Html.BeginForm("SearchBooks", "Book"))
                         {
                             <div class="form-inline" style="margin-top: 6px;">
                                 <input class="form-control mr-sm-2" type="search" name="input" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                <button class="btn btn-primary my-2 my-sm-0" type="submit">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
                                 <select class="form-control" name="selectedValue" aria-label="Default select example">
                                     <option value="title">Title</option>
                                     <option value="isbn">ISBN</option>

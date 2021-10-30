@@ -10,6 +10,7 @@ namespace LibraryProject.Controllers
 {
     public class BookController : Controller
     {
+        List<Book> bookModels = new List<Book>();
         // GET: Book
         public ActionResult Index()
         {
@@ -17,11 +18,11 @@ namespace LibraryProject.Controllers
         }
         public ActionResult SearchBooks(string input, string selectedValue)
         {
-            List<Book> bookModels = new List<Book>();
             for (int i=0; i<6; i++)
             {
                 Book book = new Book()
                 {
+                    BookId = i,
                     Title = "tytul" + i.ToString(),
                     Author = "Thomas James",
                     ISPNNumber = 1234 + i,
@@ -65,7 +66,20 @@ namespace LibraryProject.Controllers
         // GET: Book/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            for (int i = 0; i < 6; i++)
+            {
+                Book book = new Book()
+                {
+                    BookId = i,
+                    Title = "tytul" + i.ToString(),
+                    Author = "Thomas James",
+                    ISPNNumber = 1234 + i,
+                    CreationDate = DateTime.Now
+                };
+                bookModels.Add(book);
+            }
+            
+            return View(bookModels[id]);
         }
 
         // GET: Book/Create

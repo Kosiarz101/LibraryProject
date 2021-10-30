@@ -42,16 +42,16 @@
         }
     </div>
     <h3>News</h3>
-    <div class="row glyphicon-equalizer" style="display:table;">
+    <div class="row" style="">
 
         @foreach (var information in Model.Information)
         {
-            <div class="col-sm-6 col-md-4" style="display:table-cell;float: none;">
+            <div class="col-sm-6 col-md-4" style="">
                 <div class="thumbnail">
                     <div class="caption">
                         <h3 >@information.Title</h3>
-                        <p style="color:gray">@information.CreationDate.ToString("G")</p>
-                        <p>@information.Content</p>
+                        <p style="color:gray;">@information.CreationDate.ToString("G")</p>
+                        <p style="min-height: 40px">@information.Content</p>
                         <p><a href="#" class="btn btn-primary" role="button">Read More &raquo;</a></p>
                     </div>
                 </div>

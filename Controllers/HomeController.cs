@@ -22,7 +22,7 @@ namespace LibraryProject.Controllers
             };
 
             informationList.Add(information1);
-            for(int i=0; i<3; i++)
+            for(int i=0; i<5; i++)
             {
                 Information information = new Information()
                 {

@@ -1,0 +1,18 @@
+﻿.d-flex {
+    display: flex;
+}
+
+.d-flex > div {
+    float: none;
+}
+
+.col-auto {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex: 0 0 auto;
+    width: auto;
+    max-width: none;
+}
+

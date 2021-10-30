@@ -9,50 +9,84 @@
 <div>
     <h4>Book</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+    <div class="row d-flex">
+        <div class="col-sm-3">
+            <h3>
+                @Html.DisplayNameFor(model => model.Title)
+            </h3>
+        </div>
+        <div class="col-auto">
+            <h3>
+                @Html.DisplayFor(model => model.Title)
+            </h3>
+        </div>
+    </div>
+    <div class="row d-flex">
+        <div class="col-sm-3">
+            <h3>
+                @Html.DisplayNameFor(model => model.Author)
+            </h3>
+        </div>
+        <div class="col-auto">
+            <h3>
+                @Html.DisplayFor(model => model.Author)
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>
+                @Html.DisplayNameFor(model => model.Describtion)
+            </h3>
+        </div>
+        <div class="col-auto">
+            <p>
+                faefaiefahef;as;efja'e
+                feaijfoajejf'ajsefioijasoefjia[ejif[saej[fjesa
+                fieofjseajfiosajeiofjasoefjiasejfi;asef
+                efiesjfiajsejfiaefjiap;]]]
+            </p>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Describtion)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Describtion)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ISPNNumber)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ISPNNumber)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Author)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreationDate)
-        </dd>
 
-    </dl>
+    @Html.DisplayNameFor(model => model.Describtion)
+
+
+
+    @Html.DisplayFor(model => model.Describtion)
+
+
+
+    @Html.DisplayNameFor(model => model.ISPNNumber)
+
+
+
+    @Html.DisplayFor(model => model.ISPNNumber)
+
+
+    @Html.DisplayNameFor(model => model.Author)
+
+
+    @Html.DisplayFor(model => model.Author)
+
+
+    @Html.DisplayNameFor(model => model.CreationDate)
+
+
+
+    @Html.DisplayFor(model => model.CreationDate)
+
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.BookId }) |
+    
     @Html.ActionLink("Back to List", "Index")
 </p>
