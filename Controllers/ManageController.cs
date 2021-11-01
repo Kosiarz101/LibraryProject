@@ -243,6 +243,33 @@ namespace LibraryProject.Controllers
             AddErrors(result);
             return View(model);
         }
+        public ActionResult ChangeUserData()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            ChangeUserDataViewModel userViewModel = new ChangeUserDataViewModel()
+            {
+                Email = user.Email,
+                UserName = user.UserName
+            };
+            return View(userViewModel);
+        }
+
+        //
+        // POST: /Manage/ChangePassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeUserData(ChangeUserDataViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());            
+            user.Email = model.Email;
+            user.UserName = model.UserName;
+            var updateResult = UserManager.Update(user);
+            return RedirectToAction("Index");
+        }
 
         //
         // GET: /Manage/SetPassword

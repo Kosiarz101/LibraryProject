@@ -11,6 +11,7 @@
     <li id="profile" role="presentation" class=""><a href="#">Profile</a></li>
     <li id="messages" role="presentation" class=""><a href="#">Messages</a></li>
 </ul>
+<hr />
 <div id="personalSettings" class="">
     <h4>Zmień ustawienia konta</h4>
     <hr />
@@ -93,7 +94,11 @@
 <div id="personalContent" class="display-none">
     <h4>Edit Personal Data</h4>
     <hr />
-    @{Html.RenderAction("Edit", "Book", new { Id = 0});}
+    @{Html.RenderAction("ChangeUserData", "Manage");}
+    <hr />
+    <h4>Change Password</h4>
+    <hr />
+    @{Html.RenderAction("ChangePassword", "Manage");}
 </div>
 @section Scripts {
     <script type="text/javascript">

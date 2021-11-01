@@ -38,6 +38,16 @@ namespace LibraryProject.Models
         [Compare("NewPassword", ErrorMessage = "Nowe hasło i potwierdzenia hasła nie są zgodne.")]
         public string ConfirmPassword { get; set; }
     }
+    public class ChangeUserDataViewModel
+    {
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Adres Email")]
+        public string Email { get; set; }
+        [Required]
+        [Display(Name = "Nazwa Użytkownika")]
+        public string UserName { get; set; }
+    }
 
     public class ChangePasswordViewModel
     {
