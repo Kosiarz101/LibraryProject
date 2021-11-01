@@ -22,15 +22,15 @@
                 @Html.ActionLink("Nazwa aplikacji", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav ml-auto mr-auto">
+                <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Informacje", "About", "Home")</li>
                     <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
                     <li style="position: absolute; left: 42%; margin-top: 2px">
                         @using (Html.BeginForm("SearchBooks", "Book"))
                         {
                             <div class="form-inline" style="margin-top: 6px;">
-                                <input class="form-control mr-sm-2" type="search" name="input" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-primary my-2 my-sm-0" type="submit">
+                                <input class="form-control" type="search" name="input" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-primary" type="submit">
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                 </button>
                                 <select class="form-control" name="selectedValue" aria-label="Default select example">

@@ -7,11 +7,11 @@
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <ul class="nav nav-pills">
-    <li id="home" role="presentation" class=""><a href="#">Home</a></li>
+    <li id="home" role="presentation" class="active"><a href="#">Home</a></li>
     <li id="profile" role="presentation" class=""><a href="#">Profile</a></li>
     <li id="messages" role="presentation" class=""><a href="#">Messages</a></li>
 </ul>
-<div>
+<div id="personalSettings" class="">
     <h4>Zmień ustawienia konta</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -90,23 +90,34 @@
         </dd>
     </dl>
 </div>
+<div id="personalContent" class="display-none">
+    <h4>Edit Personal Data</h4>
+    <hr />
+    @{Html.RenderAction("Edit", "Book", new { Id = 0});}
+</div>
 @section Scripts {
     <script type="text/javascript">
     $(document).ready(function () {
+        function deactiveAll() {
+            $("#home").removeClass('active');
+            $("#profile").removeClass('active');
+            $("#messages").removeClass('active');
+            $("#personalContent").addClass('display-none');
+            $("#personalSettings").addClass('display-none');
+        }
         debugger;
         $("#home").click(function () {
-            $("#home").addClass('active')
-            $("#profile").removeClass('active');
-            $("#messages").removeClass('active');
+            deactiveAll();
+            $("#home").addClass('active');
+            $("#personalSettings").removeClass('display-none');
         });
         $("#profile").click(function () {
-            $("#home").removeClass('active')
+            deactiveAll();
             $("#profile").addClass('active');
-            $("#messages").removeClass('active');
+            $("#personalContent").removeClass('display-none');
         });
         $("#messages").click(function () {
-            $("#home").removeClass('active')
-            $("#profile").removeClass('active');
+            deactiveAll();
             $("#messages").addClass('active');
         });
     });

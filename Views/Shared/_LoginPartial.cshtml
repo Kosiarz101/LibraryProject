@@ -5,11 +5,25 @@
     {
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Witaj," + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+    <ul class="nav navbar-nav navbar-right" style="margin-top: 8px;">
+        <li class="mx-2">
+            <div class="dropdown" >
+                <button class="btn btn-link" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    @("Witaj," + @User.Identity.GetUserName() + "!")
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">@Html.ActionLink("My Account", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj</a></li>
+                </ul>
+            </div>
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj</a></li>
+        <li>
+            <button type="button" class="btn btn-default" aria-label="Left Align">
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+            </button>            
+        </li>
     </ul>
     }
 }

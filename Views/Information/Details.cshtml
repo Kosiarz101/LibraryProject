@@ -1,0 +1,17 @@
+﻿@model LibraryProject.Models.Information
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Model.Title</h2>
+
+<div>
+    <h4 style="color:gray">@Model.CreationDate</h4>
+    <hr />
+    <p>@Model.Content</p>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index", "Home")
+</p>

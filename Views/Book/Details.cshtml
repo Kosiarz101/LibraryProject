@@ -7,7 +7,6 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Book</h4>
     <hr />
     <div class="row d-flex">
         <div class="col-sm-3">
@@ -31,6 +30,18 @@
             <h3>
                 @Html.DisplayFor(model => model.Author)
             </h3>
+        </div>
+    </div>
+    <div class="row d-flex" style="color:gray; font-style:italic">
+        <div class="col-sm-3">
+            <h4>
+                @Html.DisplayNameFor(model => model.PublicationDate)
+            </h4>
+        </div>
+        <div class="col-auto">
+            <h4>
+                @Model.PublicationDate.ToString("dd MMMM yyyy")
+            </h4>
         </div>
     </div>
     <div class="row">
