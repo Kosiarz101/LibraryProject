@@ -68,7 +68,7 @@ namespace LibraryProject.Controllers
             {
                 Book book = new Book()
                 {
-                    BookId = i,
+                    Id = i,
                     Title = "tytul" + i.ToString(),
                     Author = "Thomas James",
                     ISPNNumber = 1234 + i,

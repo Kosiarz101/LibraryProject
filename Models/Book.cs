@@ -9,17 +9,19 @@ namespace LibraryProject.Models
 {
     public class Book
     {
-        public int BookId { get; set; }
+        public int Id { get; set; }
         [Required]       
         [Column(TypeName = "varchar")]
         [MaxLength(100)]
         public string Title { get; set; }
-        [Column(TypeName = "varchar")]
+        [Column(TypeName = "varchar"), Required]
         [MaxLength(550)]
         [DataType(DataType.MultilineText)]
         public string Describtion { get; set; }
         [Display(Name = "ISPN Number")]
+        [Required]
         public int ISPNNumber { get; set; }
+        [Required]
         [Column(TypeName = "varchar")]
         [MaxLength(100)]
         public string Author { get; set; }

@@ -1,44 +1,38 @@
-﻿using LibraryProject.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using LibraryProject.Models;
 
 namespace LibraryProject.Controllers
 {
     public class InformationController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         // GET: Information
         public ActionResult Index()
         {
-            return View();
+            return View(db.Informations.ToList());
         }
 
         // GET: Information/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            List<Information> informationList = new List<Information>();
-
-            Information information1 = new Information()
+            if (id == null)
             {
-                Title = "The Crash",
-                Content = "We are going to take this damage by the end of the season",
-                CreationDate = DateTime.Now
-            };
-
-            informationList.Add(information1);
-            for (int i = 0; i < 5; i++)
-            {
-                Information information = new Information()
-                {
-                    Title = "The Title " + i.ToString(),
-                    Content = "Content of this graphic is truly amazing im tellin ya!",
-                    CreationDate = DateTime.Now
-                };
-                informationList.Add(information);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View(informationList[id]);
+            Information information = db.Informations.Find(id);
+            if (information == null)
+            {
+                return HttpNotFound();
+            }
+            return View(information);
         }
 
         // GET: Information/Create
@@ -48,63 +42,90 @@ namespace LibraryProject.Controllers
         }
 
         // POST: Information/Create
+        // Aby zapewnić ochronę przed atakami polegającymi na przesyłaniu dodatkowych danych, włącz określone właściwości, z którymi chcesz utworzyć powiązania.
+        // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,Title,Content")] Information information)
         {
-            try
+            information.WasEdited = false;
+            information.CreationDate = DateTime.Now;
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                db.Informations.Add(information);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(information);
         }
 
         // GET: Information/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Information information = db.Informations.Find(id);
+            if (information == null)
+            {
+                return HttpNotFound();
+            }
+            return View(information);
         }
 
         // POST: Information/Edit/5
+        // Aby zapewnić ochronę przed atakami polegającymi na przesyłaniu dodatkowych danych, włącz określone właściwości, z którymi chcesz utworzyć powiązania.
+        // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Title,Content,CreationDate")] Information information)
+        {           
+            information.WasEdited = true;
+            information.LastEditionDate = DateTime.Now;
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                db.Entry(information).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(information);
         }
 
         // GET: Information/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Information information = db.Informations.Find(id);
+            if (information == null)
+            {
+                return HttpNotFound();
+            }
+            return View(information);
         }
 
         // POST: Information/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            Information information = db.Informations.Find(id);
+            db.Informations.Remove(information);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
-                return RedirectToAction("Index");
-            }
-            catch
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                return View();
+                db.Dispose();
             }
+            base.Dispose(disposing);
         }
     }
 }

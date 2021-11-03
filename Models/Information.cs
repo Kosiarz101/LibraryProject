@@ -16,8 +16,11 @@ namespace LibraryProject.Models
         public string Title { get; set; }
         [Required]
         [Column(TypeName = "varchar")]
-        [MaxLength(2500)]
+        [MaxLength(3000)]
         public string Content { get; set; }
         public DateTime CreationDate { get; set; }
+        [Required]
+        public bool WasEdited { get; set; }
+        public DateTime? LastEditionDate { get; set; }
     }
 }

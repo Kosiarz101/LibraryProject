@@ -42,10 +42,10 @@ namespace LibraryProject.Models
     {
         [Required]
         [DataType(DataType.EmailAddress)]
-        [Display(Name = "Adres Email")]
+        [Display(Name = "Email Address")]
         public string Email { get; set; }
         [Required]
-        [Display(Name = "Nazwa Użytkownika")]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
     }
 
