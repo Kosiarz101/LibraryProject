@@ -7,16 +7,14 @@
 <h2>@Model.Title</h2>
 
 <div>
-    <h4 style="color:gray">@Html.DisplayFor(model => model.CreationDate)</h4>
-    <h4 style="color:gray">@Model.CreationDate</h4>
+    <h4 style="color:gray">@Html.DisplayNameFor(model => model.CreationDate) @Model.CreationDate</h4>
     @if (Model.WasEdited)
     {
-        <h4 style="color:gray">@Html.DisplayFor(model => model.LastEditionDate)</h4>
-        <h4 style="color:gray">@Model.LastEditionDate</h4>
-        }
-        <hr />
-        <p>@Model.Content</p>
-    </div>
+        <h4 style="color:gray">@Html.DisplayNameFor(model => model.LastEditionDate) @Model.LastEditionDate</h4>
+    }
+    <hr />
+    <p style="font-size: medium">@Model.Content</p>
+</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index", "Home")

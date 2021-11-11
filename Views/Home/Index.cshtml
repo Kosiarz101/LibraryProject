@@ -49,9 +49,21 @@
             <div class="col-sm-6 col-md-4" style="">
                 <div class="thumbnail">
                     <div class="caption">
-                        <h3 >@information.Title</h3>
+                        <h3>@information.Title</h3>
                         <p style="color:gray;">@information.CreationDate.ToString("G")</p>
-                        <p style="min-height: 40px">@information.Content</p>
+                        @{
+                            if (information.Content.Length >= 100)
+                            {
+                                string temp = new string(information.Content.Take(100 - 3).ToArray());
+                                temp += "...";
+                                <p style="min-height: 40px">@temp</p>
+                            }
+                            else
+                            {
+                                <p style="min-height: 40px">@information.Content</p>
+                            }
+                        }
+
                         <p><a href="@Url.Action("Details", "Information", new { information.Id})" class="btn btn-primary" role="button">Read More &raquo;</a></p>
                     </div>
                 </div>

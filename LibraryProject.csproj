@@ -183,6 +183,10 @@
     <Compile Include="Migrations\202111031806032_SearchInformationBook.Designer.cs">
       <DependentUpon>202111031806032_SearchInformationBook.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202111111752264_UpdateBookTable.cs" />
+    <Compile Include="Migrations\202111111752264_UpdateBookTable.Designer.cs">
+      <DependentUpon>202111111752264_UpdateBookTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
@@ -261,6 +265,7 @@
     <Content Include="Views\Information\Delete.cshtml" />
     <Content Include="Views\Information\Edit.cshtml" />
     <Content Include="Views\Information\Index.cshtml" />
+    <Content Include="Views\Book\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -285,6 +290,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202111031806032_SearchInformationBook.resx">
       <DependentUpon>202111031806032_SearchInformationBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111111752264_UpdateBookTable.resx">
+      <DependentUpon>202111111752264_UpdateBookTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

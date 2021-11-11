@@ -1,43 +1,28 @@
-﻿using LibraryProject.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using LibraryProject.Models;
 
 namespace LibraryProject.Controllers
 {
     public class BookController : Controller
     {
-        List<Book> bookModels = new List<Book>();
-        // GET: Book
-        public ActionResult Index()
-        {
-            return View();
-        }
+        private ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult SearchBooks(string input, string selectedValue)
         {
-            //for (int i=0; i<6; i++)
-            //{
-            //    Book book = new Book()
-            //    {
-            //        BookId = i,
-            //        Title = "tytul" + i.ToString(),
-            //        Author = "Thomas James",
-            //        ISPNNumber = 1234 + i,
-            //        CreationDate = DateTime.Now
-            //    };
-            //    bookModels.Add(book);
-            //}
-            bookModels = (List<Book>)Session["books"];
+            List<Book> bookModels = new List<Book>(); 
             if (input == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             if (selectedValue == "title")
             {
-                bookModels = bookModels
+                bookModels = db.Books
                              .Where(x => x.Title.Contains(input))
                              .ToList();
             }
@@ -45,7 +30,7 @@ namespace LibraryProject.Controllers
             {
                 if (Int32.TryParse(input, out int result))
                 {
-                    bookModels = bookModels
+                    bookModels = db.Books
                     .Where(x => x.ISPNNumber.ToString().Contains(input))
                     .ToList();
                 }
@@ -57,30 +42,31 @@ namespace LibraryProject.Controllers
             }
             else
             {
-                bookModels = bookModels
+                bookModels = db.Books
                              .Where(x => x.Author.Contains(input))
                              .ToList();
             }
             return View(bookModels);
         }
+        // GET: Book
+        public ActionResult Index()
+        {
+            return View(db.Books.ToList());
+        }
 
         // GET: Book/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            //for (int i = 0; i < 6; i++)
-            //{
-            //    Book book = new Book()
-            //    {
-            //        BookId = i,
-            //        Title = "tytul" + i.ToString(),
-            //        Author = "Thomas James",
-            //        ISPNNumber = 1234 + i,
-            //        CreationDate = DateTime.Now
-            //    };
-            //    bookModels.Add(book);
-            //}
-            bookModels = (List<Book>)Session["books"];
-            return View(bookModels[id]);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Book book = db.Books.Find(id);
+            if (book == null)
+            {
+                return HttpNotFound();
+            }
+            return View(book);
         }
 
         // GET: Book/Create
@@ -90,78 +76,87 @@ namespace LibraryProject.Controllers
         }
 
         // POST: Book/Create
+        // Aby zapewnić ochronę przed atakami polegającymi na przesyłaniu dodatkowych danych, włącz określone właściwości, z którymi chcesz utworzyć powiązania.
+        // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,Title,Describtion,ISPNNumber,Author,PublicationDate")] Book book)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                book.CreationDate = DateTime.Now;
+                db.Books.Add(book);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(book);
         }
 
         // GET: Book/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            //for (int i = 0; i < 6; i++)
-            //{
-            //    Book book = new Book()
-            //    {
-            //        BookId = i,
-            //        Title = "tytul" + i.ToString(),
-            //        Author = "Thomas James",
-            //        ISPNNumber = 1234 + i,
-            //        CreationDate = DateTime.Now
-            //    };
-            //    bookModels.Add(book);
-            //}
-            bookModels = (List<Book>)Session["books"];
-            return View(bookModels[id]);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Book book = db.Books.Find(id);
+            if (book == null)
+            {
+                return HttpNotFound();
+            }
+            return View(book);
         }
 
         // POST: Book/Edit/5
+        // Aby zapewnić ochronę przed atakami polegającymi na przesyłaniu dodatkowych danych, włącz określone właściwości, z którymi chcesz utworzyć powiązania.
+        // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(int id, Book collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Title,Describtion,ISPNNumber,Author,CreationDate,PublicationDate")] Book book)
         {
-            try
+            if (ModelState.IsValid)
             {
-                bookModels = (List<Book>)Session["books"];
-                bookModels[id] = collection;
-                Session["books"] = bookModels;
-
-                return RedirectToAction("Index", "Home");
+                db.Entry(book).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(book);
         }
 
         // GET: Book/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Book book = db.Books.Find(id);
+            if (book == null)
+            {
+                return HttpNotFound();
+            }
+            return View(book);
         }
 
         // POST: Book/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            Book book = db.Books.Find(id);
+            db.Books.Remove(book);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
-                return RedirectToAction("Index");
-            }
-            catch
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                return View();
+                db.Dispose();
             }
+            base.Dispose(disposing);
         }
     }
 }

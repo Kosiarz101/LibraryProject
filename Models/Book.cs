@@ -11,19 +11,20 @@ namespace LibraryProject.Models
     {
         public int Id { get; set; }
         [Required]       
-        [Column(TypeName = "varchar")]
-        [MaxLength(100)]
+        [Column(TypeName = "nvarchar")]
+        [MaxLength(200)]
         public string Title { get; set; }
-        [Column(TypeName = "varchar"), Required]
-        [MaxLength(550)]
+        [Column(TypeName = "nvarchar"), Required]
+        [MaxLength(1100)]
         [DataType(DataType.MultilineText)]
         public string Describtion { get; set; }
         [Display(Name = "ISPN Number")]
+        [Required, MaxLength(13)]
+        [RegularExpression("^[0-9]{13}$", ErrorMessage = "ispn number must be a 13 digit number")]
+        public string ISPNNumber { get; set; }
         [Required]
-        public int ISPNNumber { get; set; }
-        [Required]
-        [Column(TypeName = "varchar")]
-        [MaxLength(100)]
+        [Column(TypeName = "nvarchar")]
+        [MaxLength(200)]
         public string Author { get; set; }
         public DateTime CreationDate { get; set; }
         [Display(Name = "Publication Date")]
