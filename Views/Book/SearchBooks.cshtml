@@ -6,6 +6,11 @@
 
 <h2>Oto następujące pozycje zgodne z twoimi kryteriami wyszukiwania: </h2>
 
+<div class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong>Warning!</strong> Better check yourself, you're not looking too good.
+</div>
+
 @if (Model.Count() == 0)
 {
     <h3 style="color:gray">Brak książek o podanym tytule w bazie danych</h3>
@@ -50,12 +55,30 @@ else
                     @Html.DisplayFor(modelItem => item.CreationDate)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Borrow", "AddToCart", new { id = item.Id }, new { id = "link"}) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id })
                 </td>
             </tr>
         }
 
     </table>
+}
+@section Scripts {
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#link").click(function (e) {
+
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr("href"), // comma here instead of semicolon   
+                success: function () {
+                    alert("Value Added");  // or any other indication if you want to show
+                }
+
+            });
+
+        });
+    });
+
+    </script>
 }

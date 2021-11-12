@@ -43,7 +43,6 @@
     </div>
     <h3>News</h3>
     <div class="row" style="">
-
         @foreach (var information in Model.Information)
         {
             <div class="col-sm-6 col-md-4" style="">
@@ -72,5 +71,62 @@
     </div>
     <div class="row">
         <h3>New Books</h3>
+        @if (Model.Books == null)
+        {
+            <p>There is not any new books yet</p>
+        }
+        else
+        {
+            foreach (var item in Model.Books)
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Books[0].Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Books[0].Describtion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Books[0].ISPNNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Books[0].Author)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Books[0].CreationDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Books[0].PublicationDate)
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Describtion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ISPNNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Author)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreationDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PublicationDate)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Book", new { id = item.Id }, null)
+                        </td>
+                    </tr>
+
+                </table>
+            }
+        }
     </div>
 </div>

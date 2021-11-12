@@ -22,6 +22,25 @@
 .max-width-extended {
     max-width: 840px !important;
 }
+.fake-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #337ab7;
+    padding: 0px;
+}
+.fake-button:hover,
+.fake-button:focus {
+    color: #23527c;
+    text-decoration: underline;
+}
+.cancel-nav-a {
+    padding: 6px 12px !important;
+    color: #000000 !important;
+}
+.cancel-nav-a:hover {
+    color: #ffffff !important;
+}
 .m-0 {
     margin: 0 !important;
 }

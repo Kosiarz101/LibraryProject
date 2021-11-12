@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using LibraryProject.Models;
@@ -47,6 +48,56 @@ namespace LibraryProject.Controllers
                              .ToList();
             }
             return View(bookModels);
+        }
+        // GET: ShoppingCart
+        public ActionResult ShoppingCart()
+        {
+            List<Book> books;
+            if (Session["shoppingcart"] is List<Book>)
+            {
+                books = (List<Book>)Session["shoppingcart"];
+            }
+            else
+            {
+                books = new List<Book>();
+            }             
+            return View(books);
+        }
+        // POST: ShoppingCart
+        [HttpPost]
+        public ActionResult ShoppingCart(int? id)
+        {
+            List<Book> books = new List<Book>();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (Session["shoppingcart"] is List<Book>)
+            {
+                books = (List<Book>)Session["shoppingcart"];
+                books = books.Where(x => x.Id != id).ToList();
+                Session["shoppingcart"] = books;
+            }
+            return View(books);
+        }
+        public void AddToCart(int? id)
+        {
+            List<Book> books = new List<Book>();
+            if (id == null)
+            {
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Book book = db.Books.Find(id);
+            if (book == null)
+            {
+                //return HttpNotFound();
+            }
+            if (Session["shoppingcart"] is List<Book>)
+            {
+                books = (List<Book>)Session["shoppingcart"];              
+            }
+            books.Add(book);
+            Session["shoppingcart"] = books;
         }
         // GET: Book
         public ActionResult Index()

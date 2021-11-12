@@ -26,6 +26,7 @@ namespace LibraryProject.Models
         [Column(TypeName = "nvarchar")]
         [MaxLength(200)]
         public string Author { get; set; }
+        [Display(Name = "Added To Library")]
         public DateTime CreationDate { get; set; }
         [Display(Name = "Publication Date")]
         [DataType(DataType.Date), Required]

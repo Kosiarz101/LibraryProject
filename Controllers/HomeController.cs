@@ -18,6 +18,9 @@ namespace LibraryProject.Controllers
             HomeIndexViewModel homeIndexViewModel = new HomeIndexViewModel();
 
             homeIndexViewModel.Information = db.Informations.ToList();
+            homeIndexViewModel.Books = db.Books
+                .OrderByDescending(x => x.CreationDate)
+                .Take(6).ToList();
             return View(homeIndexViewModel);
         }
 

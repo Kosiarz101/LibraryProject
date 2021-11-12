@@ -9,5 +9,6 @@ namespace LibraryProject.Models
     {
         public List<Information> Information { get; set; }
         public List<Search> Searches { get; set; }
+        public List<Book> Books { get; set; }
     }
 }
