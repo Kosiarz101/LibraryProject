@@ -32,5 +32,9 @@ namespace LibraryProject.Models
         [DataType(DataType.Date), Required]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime PublicationDate { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Only positive numbers are allowed")]
+        public int Quantity { get; set; }
+        //Relations
+        public virtual ICollection<AwaitedBook> AwaitedBooks { get; set; }
     }
 }

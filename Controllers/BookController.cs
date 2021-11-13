@@ -63,7 +63,7 @@ namespace LibraryProject.Controllers
             }             
             return View(books);
         }
-        // POST: ShoppingCart
+        // POST: ShoppingCart delete book
         [HttpPost]
         public ActionResult ShoppingCart(int? id)
         {
@@ -80,6 +80,21 @@ namespace LibraryProject.Controllers
             }
             return View(books);
         }
+        // POST: ShoppingCart finalise transaction 
+        [HttpPost]
+        [ActionName("ShoppingCartFinalise")]
+        public ActionResult ShoppingCart(IList<Book> books)
+        {
+            for (int i = 0; i < books.Count(); i++)
+            {
+                books[i].Quantity--;
+                db.Entry(books[i]).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+            Session["shoppingcart"] = null;
+            books = new List<Book>();
+            return RedirectToAction("ShoppingCart", "Book", books);
+        }
         public void AddToCart(int? id)
         {
             List<Book> books = new List<Book>();
@@ -94,9 +109,10 @@ namespace LibraryProject.Controllers
             }
             if (Session["shoppingcart"] is List<Book>)
             {
-                books = (List<Book>)Session["shoppingcart"];              
+                books = (List<Book>)Session["shoppingcart"];               
             }
-            books.Add(book);
+            if (!books.Exists(x => x.Id == id))
+                books.Add(book);
             Session["shoppingcart"] = books;
         }
         // GET: Book
@@ -164,7 +180,7 @@ namespace LibraryProject.Controllers
         // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Describtion,ISPNNumber,Author,CreationDate,PublicationDate")] Book book)
+        public ActionResult Edit([Bind(Include = "Id,Title,Describtion,ISPNNumber,Author,CreationDate,PublicationDate,Quantity")] Book book)
         {
             if (ModelState.IsValid)
             {

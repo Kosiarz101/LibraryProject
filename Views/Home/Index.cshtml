@@ -77,30 +77,31 @@
         }
         else
         {
-            foreach (var item in Model.Books)
-            {
-                <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Books[0].Title)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Books[0].Describtion)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Books[0].ISPNNumber)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Books[0].Author)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Books[0].CreationDate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Books[0].PublicationDate)
-                        </th>
-                        <th></th>
-                    </tr>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Books[0].Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Books[0].Describtion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Books[0].ISPNNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Books[0].Author)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Books[0].CreationDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Books[0].PublicationDate)
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.Books)
+                {
+
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Title)
@@ -125,8 +126,8 @@
                         </td>
                     </tr>
 
-                </table>
-            }
+                }
+            </table>
         }
     </div>
 </div>

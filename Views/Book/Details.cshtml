@@ -44,6 +44,34 @@
             </h4>
         </div>
     </div>
+    <div class="row d-flex">
+
+        @if (Model.Quantity == 0)
+        {
+            <div class="col-sm-3">
+                <p style="color:red">Out of stock </p>
+            </div>
+            <div class="col-auto">
+                <a style="color:cornflowerblue">join the queue</a>
+            </div>
+        }
+        else
+        {
+            <div class="col-sm-3">
+                <p style="color:green"> Book is available</p>
+            </div>
+            <div class="col-auto">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @Html.ActionLink("Add to Cart", "AddToCart", "Book", new { Id = Model.Id }, new { @class = "btn btn-primary", @Id = "link" });
+                }
+                else
+                {
+                    <a>You must be logged to borrow books</a>
+                }
+            </div>
+        }
+    </div>
     <div class="row">
         <div class="col-sm-12">
             <h3>
@@ -58,6 +86,9 @@
     </div>
 </div>
 <p>
-    
     @Html.ActionLink("Back to List", "Index")
 </p>
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/ShoppingCart.js")"></script>
+}

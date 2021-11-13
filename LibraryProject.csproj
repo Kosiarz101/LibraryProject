@@ -187,8 +187,13 @@
     <Compile Include="Migrations\202111111752264_UpdateBookTable.Designer.cs">
       <DependentUpon>202111111752264_UpdateBookTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202111121728515_AwaitedBooks.cs" />
+    <Compile Include="Migrations\202111121728515_AwaitedBooks.Designer.cs">
+      <DependentUpon>202111121728515_AwaitedBooks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AwaitedBook.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -215,11 +220,14 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ShoppingCart.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -267,6 +275,7 @@
     <Content Include="Views\Information\Index.cshtml" />
     <Content Include="Views\Book\Index.cshtml" />
     <Content Include="Views\Book\ShoppingCart.cshtml" />
+    <Content Include="Views\Shared\jjj.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -294,6 +303,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202111111752264_UpdateBookTable.resx">
       <DependentUpon>202111111752264_UpdateBookTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111121728515_AwaitedBooks.resx">
+      <DependentUpon>202111121728515_AwaitedBooks.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

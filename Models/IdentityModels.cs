@@ -11,6 +11,7 @@ namespace LibraryProject.Models
     public class ApplicationUser : IdentityUser
     {
         public virtual ICollection<Search> Searches { get; set; }
+        public virtual ICollection<AwaitedBook> AwaitedBooks { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Element authenticationType musi pasować do elementu zdefiniowanego w elemencie CookieAuthenticationOptions.AuthenticationType
@@ -30,9 +31,15 @@ namespace LibraryProject.Models
         public DbSet<Book> Books { get; set; }
         public DbSet<Information> Informations { get; set; }
         public DbSet<Search> Searches { get; set; }
+        public DbSet<AwaitedBook> AwaitedBooks { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<AwaitedBook>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
         }
     }
 }
