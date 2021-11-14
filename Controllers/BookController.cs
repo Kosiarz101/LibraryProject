@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using LibraryProject.Models;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 
 namespace LibraryProject.Controllers
 {
@@ -29,17 +31,9 @@ namespace LibraryProject.Controllers
             }
             else if (selectedValue == "isbn")
             {
-                if (Int32.TryParse(input, out int result))
-                {
-                    bookModels = db.Books
-                    .Where(x => x.ISPNNumber.ToString().Contains(input))
-                    .ToList();
-                }
-                else
-                {
-                    View(bookModels);
-                }
-
+                bookModels = db.Books
+                            .Where(x => x.ISPNNumber.ToString().Contains(input))
+                            .ToList();
             }
             else
             {
@@ -65,6 +59,7 @@ namespace LibraryProject.Controllers
         }
         // POST: ShoppingCart delete book
         [HttpPost]
+        [ActionName("ShoppingCartDelete")]
         public ActionResult ShoppingCart(int? id)
         {
             List<Book> books = new List<Book>();
@@ -78,13 +73,43 @@ namespace LibraryProject.Controllers
                 books = books.Where(x => x.Id != id).ToList();
                 Session["shoppingcart"] = books;
             }
-            return View(books);
+            return View("ShoppingCart", books);
         }
         // POST: ShoppingCart finalise transaction 
         [HttpPost]
         [ActionName("ShoppingCartFinalise")]
         public ActionResult ShoppingCart(IList<Book> books)
         {
+            ApplicationUserManager userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationUser applicationUser = userManager.FindById(User.Identity.GetUserId());
+            List<int> ids = new List<int>();
+            for(int i=0; i<books.Count; i++)
+            {
+                ids.Add(books[i].Id);
+            }
+
+            //Get all books that current user is awaiting
+            List<AwaitedBook> awaitedBooks = db.AwaitedBooks
+                                               .Include(x => x.ApplicationUser)
+                                               .Where(x => x.ApplicationUserId == applicationUser.Id)
+                                               .Include(x => x.Book)
+                                               .Where(x => ids.Contains(x.BookId))
+                                               .ToList();
+            if(awaitedBooks.Count > 0)
+            {
+                ViewData["message"] = "You have already borrowed one of a book from a cart";
+                ViewData["messageType"] = "info";
+                return View("ShoppingCart", books);
+            }
+            foreach(var item in books)
+            {
+                AwaitedBook awaitedBook = new AwaitedBook()
+                {
+                    ApplicationUserId = applicationUser.Id,
+                    BookId = item.Id
+                };
+                db.AwaitedBooks.Add(awaitedBook);
+            }
             for (int i = 0; i < books.Count(); i++)
             {
                 books[i].Quantity--;
@@ -95,7 +120,7 @@ namespace LibraryProject.Controllers
             books = new List<Book>();
             return RedirectToAction("ShoppingCart", "Book", books);
         }
-        public void AddToCart(int? id)
+        public PartialViewResult AddToCart(int? id)
         {
             List<Book> books = new List<Book>();
             if (id == null)
@@ -114,6 +139,9 @@ namespace LibraryProject.Controllers
             if (!books.Exists(x => x.Id == id))
                 books.Add(book);
             Session["shoppingcart"] = books;
+            ViewData["message"] = "You added book to your cart!";
+            ViewData["messageType"] = "Info";
+            return PartialView("_MessageAlert");
         }
         // GET: Book
         public ActionResult Index()
@@ -135,7 +163,20 @@ namespace LibraryProject.Controllers
             }
             return View(book);
         }
-
+        //GET: Book/BookPage/5
+        public ActionResult BookPage(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Book book = db.Books.Find(id);
+            if (book == null)
+            {
+                return HttpNotFound();
+            }
+            return View(book);
+        }
         // GET: Book/Create
         public ActionResult Create()
         {

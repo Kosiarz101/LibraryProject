@@ -195,11 +195,13 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AwaitedBook.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BookTag.cs" />
     <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Information.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Search.cs" />
+    <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -262,7 +264,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Book\Details.cshtml" />
+    <Content Include="Views\Book\BookPage.cshtml" />
     <Content Include="Views\Book\SearchBooks.cshtml" />
     <Content Include="Views\Information\Details.cshtml" />
     <Content Include="Views\Book\Create.cshtml" />
@@ -275,7 +277,8 @@
     <Content Include="Views\Information\Index.cshtml" />
     <Content Include="Views\Book\Index.cshtml" />
     <Content Include="Views\Book\ShoppingCart.cshtml" />
-    <Content Include="Views\Shared\jjj.cshtml" />
+    <Content Include="Views\Shared\_MessageAlert.cshtml" />
+    <Content Include="Views\Book\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

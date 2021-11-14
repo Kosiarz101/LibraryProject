@@ -14,7 +14,7 @@ namespace LibraryProject.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
-        {           
+        {
             HomeIndexViewModel homeIndexViewModel = new HomeIndexViewModel();
 
             homeIndexViewModel.Information = db.Informations.ToList();
