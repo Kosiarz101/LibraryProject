@@ -191,6 +191,10 @@
     <Compile Include="Migrations\202111121728515_AwaitedBooks.Designer.cs">
       <DependentUpon>202111121728515_AwaitedBooks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202111160817344_AddTagTable.cs" />
+    <Compile Include="Migrations\202111160817344_AddTagTable.Designer.cs">
+      <DependentUpon>202111160817344_AddTagTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AwaitedBook.cs" />
@@ -309,6 +313,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202111121728515_AwaitedBooks.resx">
       <DependentUpon>202111121728515_AwaitedBooks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111160817344_AddTagTable.resx">
+      <DependentUpon>202111160817344_AddTagTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

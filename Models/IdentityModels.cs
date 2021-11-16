@@ -32,6 +32,8 @@ namespace LibraryProject.Models
         public DbSet<Information> Informations { get; set; }
         public DbSet<Search> Searches { get; set; }
         public DbSet<AwaitedBook> AwaitedBooks { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<BookTag> BookTags { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
@@ -40,6 +42,7 @@ namespace LibraryProject.Models
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<AwaitedBook>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
+            modelBuilder.Entity<BookTag>().HasKey(sc => new { sc.BookId, sc.TagName });
         }
     }
 }

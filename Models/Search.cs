@@ -11,7 +11,7 @@ namespace LibraryProject.Models
     {
         public int Id { get; set; }
         [Required]
-        [Column(TypeName = "varchar")]
+        [Column(TypeName = "varchar"), MaxLength(1000)]
         public string Content { get; set; }
         [Display(Name = "Search Date")]
         public DateTime CreationDate { get; set; }

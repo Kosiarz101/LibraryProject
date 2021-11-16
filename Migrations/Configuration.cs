@@ -43,6 +43,19 @@ namespace LibraryProject.Migrations
                     Quantity = 2
                 });
             }
+            if (!context.Informations.Any(x => x.Title == "Julius Caesar"))
+            {
+                context.Informations.AddOrUpdate(x => x.Id,
+                new Models.Information()
+                {
+                    Title = "Julius Caesar",
+                    Content = "Julius Caesar, in full Gaius Julius Caesar, (born July 12/13, 100? BCE, Rome [Italy]—died March 15, 44 BCE, Rome), celebrated Roman general and statesman,"+ 
+                                "the conqueror of Gaul (58–50 BCE), victor in the civil war of 49–45 BCE, and dictator (46–44 BCE), who was launching a series of political and social" + 
+                                "reforms when he was assassinated by a group of nobles in the Senate House on the Ides of March.",
+                    CreationDate = DateTime.Now,
+                    WasEdited = false
+                });
+            }
 
             //  This method will be called after migrating to the latest version.
 
