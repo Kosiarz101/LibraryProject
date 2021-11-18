@@ -1,4 +1,4 @@
-﻿@model LibraryProject.Models.Book
+﻿@model LibraryProject.Models.BookPageViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -14,42 +14,42 @@
     <div class="row d-flex">
         <div class="col-sm-3">
             <h3>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.Book.Title)
             </h3>
         </div>
         <div class="col-auto">
             <h3>
-                @Html.DisplayFor(model => model.Title)
+                @Html.DisplayFor(model => model.Book.Title)
             </h3>
         </div>
     </div>
     <div class="row d-flex">
         <div class="col-sm-3">
             <h3>
-                @Html.DisplayNameFor(model => model.Author)
+                @Html.DisplayNameFor(model => model.Book.Author)
             </h3>
         </div>
         <div class="col-auto">
             <h3>
-                @Html.DisplayFor(model => model.Author)
+                @Html.DisplayFor(model => model.Book.Author)
             </h3>
         </div>
     </div>
     <div class="row d-flex" style="color:gray; font-style:italic">
         <div class="col-sm-3">
             <h4>
-                @Html.DisplayNameFor(model => model.PublicationDate)
+                @Html.DisplayNameFor(model => model.Book.PublicationDate)
             </h4>
         </div>
         <div class="col-auto">
             <h4>
-                @Model.PublicationDate.ToString("dd MMMM yyyy")
+                @Model.Book.PublicationDate.ToString("dd MMMM yyyy")
             </h4>
         </div>
     </div>
     <div class="row d-flex">
 
-        @if (Model.Quantity == 0)
+        @if (Model.Book.Quantity == 0)
         {
             <div class="col-sm-3">
                 <p style="color:red">Out of stock </p>
@@ -66,7 +66,7 @@
             <div class="col-auto">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    @Ajax.ActionLink("Add to Cart", "AddToCart", new { Id = Model.Id }, new AjaxOptions
+                    @Ajax.ActionLink("Add to Cart", "AddToCart", new { Id = Model.Book.Id }, new AjaxOptions
                     {
                          UpdateTargetId = "Message",
                          InsertionMode = InsertionMode.Replace,
@@ -84,17 +84,31 @@
     <div class="row">
         <div class="col-sm-12">
             <h3>
-                @Html.DisplayNameFor(model => model.Describtion)
+                @Html.DisplayNameFor(model => model.Book.Describtion)
             </h3>
         </div>
         <div class="col-auto">
             <p>
-                @Html.DisplayFor(model => model.Describtion)
+                @Html.DisplayFor(model => model.Book.Describtion)
             </p>
         </div>
     </div>
+    @if (Model.Tags.Count > 0)
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Tags</h4>
+                @foreach (var tag in Model.Tags)
+                {
+                    @Html.ActionLink(tag.Name, "TagSearch", "Tag", new { name = tag.Name}, new { @Class="mx-2"})
+                }
+            </div>
+            
+        </div>       
+    }
+
 </div>
-<p>
+<p class="my-2">
     @Html.ActionLink("Back to List", "Index")
 </p>
 @section Scripts

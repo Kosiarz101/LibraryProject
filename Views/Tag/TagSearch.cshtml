@@ -1,0 +1,86 @@
+﻿@model IList<LibraryProject.Models.Book>
+
+@{
+    ViewBag.Title = "TagSearch";
+}
+
+<h2>Books with Tag #@ViewBag.Tag</h2>
+
+<div id="Message">
+
+</div>
+@if (Model.Count > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Describtion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ISPNNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].PublicationDate)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Describtion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ISPNNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublicationDate)
+                </td>
+                <td>
+                    <div style="float:right">
+                        @if (item.Quantity != 0)
+                        {
+                            if (!User.Identity.IsAuthenticated)
+                            {
+                                @Html.ActionLink("Borrow", "Login", "Account");
+                            }
+                            else
+                            {
+                                @Ajax.ActionLink("Borrow", "AddToCart", new { id = item.Id },
+                                new AjaxOptions
+                                {
+                                    UpdateTargetId = "Message",
+                                    InsertionMode = InsertionMode.Replace,
+                                    HttpMethod = "GET" // <-- HTTP method
+                                });
+                            }
+                            <a>|</a>
+                        }
+                        @Html.ActionLink("Details", "BookPage", "Book", new { id = item.Id }, null)
+                    </div>                   
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h3 style="color:grey;text-align:center;">There are no books with this tag</h3>
+}
+@section Scripts
+{
+
+}
+

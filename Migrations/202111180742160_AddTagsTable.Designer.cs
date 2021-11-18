@@ -7,13 +7,13 @@ namespace LibraryProject.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddTagTable : IMigrationMetadata
+    public sealed partial class AddTagsTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddTagTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddTagsTable));
         
         string IMigrationMetadata.Id
         {
-            get { return "202111160817344_AddTagTable"; }
+            get { return "202111180742160_AddTagsTable"; }
         }
         
         string IMigrationMetadata.Source

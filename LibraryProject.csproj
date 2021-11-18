@@ -172,6 +172,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InformationController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -191,14 +192,15 @@
     <Compile Include="Migrations\202111121728515_AwaitedBooks.Designer.cs">
       <DependentUpon>202111121728515_AwaitedBooks.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202111160817344_AddTagTable.cs" />
-    <Compile Include="Migrations\202111160817344_AddTagTable.Designer.cs">
-      <DependentUpon>202111160817344_AddTagTable.cs</DependentUpon>
+    <Compile Include="Migrations\202111180742160_AddTagsTable.cs" />
+    <Compile Include="Migrations\202111180742160_AddTagsTable.Designer.cs">
+      <DependentUpon>202111180742160_AddTagsTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AwaitedBook.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BookPageViewModel.cs" />
     <Compile Include="Models\BookTag.cs" />
     <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -283,9 +285,16 @@
     <Content Include="Views\Book\ShoppingCart.cshtml" />
     <Content Include="Views\Shared\_MessageAlert.cshtml" />
     <Content Include="Views\Book\Details.cshtml" />
+    <Content Include="Views\Tag\Create.cshtml" />
+    <Content Include="Views\Tag\Delete.cshtml" />
+    <Content Include="Views\Tag\Details.cshtml" />
+    <Content Include="Views\Tag\Edit.cshtml" />
+    <Content Include="Views\Tag\Index.cshtml" />
+    <Content Include="Views\Tag\TagSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Tags\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -314,8 +323,8 @@
     <EmbeddedResource Include="Migrations\202111121728515_AwaitedBooks.resx">
       <DependentUpon>202111121728515_AwaitedBooks.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202111160817344_AddTagTable.resx">
-      <DependentUpon>202111160817344_AddTagTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202111180742160_AddTagsTable.resx">
+      <DependentUpon>202111180742160_AddTagsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

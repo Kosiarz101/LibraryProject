@@ -3,7 +3,7 @@ namespace LibraryProject.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddTagTable : DbMigration
+    public partial class AddTagsTable : DbMigration
     {
         public override void Up()
         {

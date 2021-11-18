@@ -9,8 +9,9 @@ namespace LibraryProject.Models
 {
     public class Tag
     {
-        [Key]
+        [Key, Required]
         [Column(TypeName = "nvarchar"), MaxLength(200)]
         public string Name { get; set; }
+        public virtual ICollection<BookTag> BookTags { get; set; }
     }
 }

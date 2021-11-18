@@ -36,5 +36,6 @@ namespace LibraryProject.Models
         public int Quantity { get; set; }
         //Relations
         public virtual ICollection<AwaitedBook> AwaitedBooks { get; set; }
+        public virtual ICollection<BookTag> BookTags { get; set; }
     }
 }

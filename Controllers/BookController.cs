@@ -166,6 +166,7 @@ namespace LibraryProject.Controllers
         //GET: Book/BookPage/5
         public ActionResult BookPage(int? id)
         {
+            BookPageViewModel bookPageViewModel = new BookPageViewModel();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -175,7 +176,11 @@ namespace LibraryProject.Controllers
             {
                 return HttpNotFound();
             }
-            return View(book);
+            bookPageViewModel.Book = book;
+            //W tabeli typu joint znajdź wszystkie rekordy z odpowiednim id książki a potem dołącz wszystkie tagi
+            List<Tag> tags = db.BookTags.Where(x => x.BookId == book.Id).Select(x => x.Tag).ToList();
+            bookPageViewModel.Tags = tags;
+            return View(bookPageViewModel);
         }
         // GET: Book/Create
         public ActionResult Create()
