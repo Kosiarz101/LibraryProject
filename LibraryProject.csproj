@@ -168,10 +168,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AwaitedBookController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InformationController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\QueueController.cs" />
+    <Compile Include="Controllers\SearchesController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -196,6 +199,18 @@
     <Compile Include="Migrations\202111180742160_AddTagsTable.Designer.cs">
       <DependentUpon>202111180742160_AddTagsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202111182039567_UpdateUserTable.cs" />
+    <Compile Include="Migrations\202111182039567_UpdateUserTable.Designer.cs">
+      <DependentUpon>202111182039567_UpdateUserTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112011716038_AddQueue.cs" />
+    <Compile Include="Migrations\202112011716038_AddQueue.Designer.cs">
+      <DependentUpon>202112011716038_AddQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112011838432_ModifyQueueAndAwaitedBooks.cs" />
+    <Compile Include="Migrations\202112011838432_ModifyQueueAndAwaitedBooks.Designer.cs">
+      <DependentUpon>202112011838432_ModifyQueueAndAwaitedBooks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AwaitedBook.cs" />
@@ -206,6 +221,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Information.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Queue.cs" />
     <Compile Include="Models\Search.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -291,10 +307,24 @@
     <Content Include="Views\Tag\Edit.cshtml" />
     <Content Include="Views\Tag\Index.cshtml" />
     <Content Include="Views\Tag\TagSearch.cshtml" />
+    <Content Include="Views\Searches\Delete.cshtml" />
+    <Content Include="Views\Searches\Details.cshtml" />
+    <Content Include="Views\Searches\Index.cshtml" />
+    <Content Include="Views\Queue\Create.cshtml" />
+    <Content Include="Views\Queue\Delete.cshtml" />
+    <Content Include="Views\Queue\Details.cshtml" />
+    <Content Include="Views\Queue\Edit.cshtml" />
+    <Content Include="Views\Queue\Index.cshtml" />
+    <Content Include="Views\Queue\QueueListByUser.cshtml" />
+    <Content Include="Views\AwaitedBook\Create.cshtml" />
+    <Content Include="Views\AwaitedBook\Delete.cshtml" />
+    <Content Include="Views\AwaitedBook\Details.cshtml" />
+    <Content Include="Views\AwaitedBook\Edit.cshtml" />
+    <Content Include="Views\AwaitedBook\Index.cshtml" />
+    <Content Include="Views\AwaitedBook\AwaitedBookListByUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Tags\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -325,6 +355,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202111180742160_AddTagsTable.resx">
       <DependentUpon>202111180742160_AddTagsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111182039567_UpdateUserTable.resx">
+      <DependentUpon>202111182039567_UpdateUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112011716038_AddQueue.resx">
+      <DependentUpon>202112011716038_AddQueue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112011838432_ModifyQueueAndAwaitedBooks.resx">
+      <DependentUpon>202112011838432_ModifyQueueAndAwaitedBooks.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

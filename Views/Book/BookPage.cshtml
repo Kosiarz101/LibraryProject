@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Details";
 }
+@using Microsoft.AspNet.Identity
 
 <h2>Details</h2>
 <div id="Message">
@@ -55,7 +56,13 @@
                 <p style="color:red">Out of stock </p>
             </div>
             <div class="col-auto">
-                <a style="color:cornflowerblue">join the queue</a>
+                @Ajax.ActionLink("Join a queue", "CreateAjax", "Queue", new { BookId = Model.Book.Id, UserId = User.Identity.GetUserId() }, new AjaxOptions
+                    {
+                         UpdateTargetId = "Message",
+                         InsertionMode = InsertionMode.Replace,
+                         HttpMethod = "POST" // <-- HTTP method
+                    }
+                    , new { @class = "btn btn-primary", @Id = "link" })
             </div>
         }
         else
@@ -72,7 +79,7 @@
                          InsertionMode = InsertionMode.Replace,
                          HttpMethod = "GET" // <-- HTTP method
                     }
-                    , new { @class = "btn btn-primary", @Id = "link" });
+                    , new { @class = "btn btn-primary", @Id = "link" })
                 }
                 else
                 {

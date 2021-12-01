@@ -11,7 +11,7 @@ namespace LibraryProject.Models
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
-        public bool BrowserRemembered { get; set; }
+        public bool BrowserRemembered { get; set; }       
     }
 
     public class ManageLoginsViewModel
@@ -47,6 +47,9 @@ namespace LibraryProject.Models
         [Required]
         [Display(Name = "Username")]
         public string UserName { get; set; }
+        [Required]
+        [Display(Name = "Search Save Mode")]
+        public bool isSearchSaveModeActivated { get; set; }
     }
 
     public class ChangePasswordViewModel

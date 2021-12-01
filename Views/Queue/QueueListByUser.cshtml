@@ -1,0 +1,45 @@
+﻿@model List<LibraryProject.Models.Queue>
+@{
+    ViewBag.Title = "QueueListByUser";
+    Layout = null;
+}
+@using Microsoft.AspNet.Identity
+@if (Model.Count > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Book.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Place)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Place)
+                </td>
+                <td>
+                    @Html.ActionLink("Leave Queue", "Delete", "Queue", new { UserId = User.Identity.GetUserId(), BookId = item.BookId }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <h4>You are not in any queue right now</h4>
+}

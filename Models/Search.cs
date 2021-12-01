@@ -13,6 +13,7 @@ namespace LibraryProject.Models
         [Required]
         [Column(TypeName = "varchar"), MaxLength(1000)]
         public string Content { get; set; }
+        public string Type { get; set; }
         [Display(Name = "Search Date")]
         public DateTime CreationDate { get; set; }
         public string ApplicationUserId { get; set; }

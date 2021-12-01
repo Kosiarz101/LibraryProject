@@ -5,12 +5,13 @@ using System.Web;
 
 namespace LibraryProject.Models
 {
-    public class AwaitedBook
+    public class Queue
     {
         public string ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
         public int BookId { get; set; }
         public virtual Book Book { get; set; }
         public DateTime CreationDate { get; set; }
+        public int Place { get; set; }
     }
 }

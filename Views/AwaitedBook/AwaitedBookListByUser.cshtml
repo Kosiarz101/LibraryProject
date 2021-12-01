@@ -1,0 +1,43 @@
+﻿@model List<LibraryProject.Models.AwaitedBook>
+@{
+    ViewBag.Title = "AwaitedBookListByUser";
+    Layout = null;
+}
+
+@using Microsoft.AspNet.Identity
+@if (Model.Count > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Book.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].CreationDate)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", "Book", new { id = item.BookId }, null) |
+                    @Html.ActionLink("Cancel Order", "Delete", "AwaitedBook", new { UserId = User.Identity.GetUserId(), BookId = item.BookId }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <h4>You are not in any queue right now</h4>
+}
+
+

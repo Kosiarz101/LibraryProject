@@ -2,14 +2,15 @@
 @{
     ViewBag.Title = "Zarządzaj";
 }
-
+@using Microsoft.AspNet.Identity
 <h2>@ViewBag.Title</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <ul class="nav nav-pills">
     <li id="home" role="presentation" class="active"><a href="#">Home</a></li>
     <li id="profile" role="presentation" class=""><a href="#">Profile</a></li>
-    <li id="messages" role="presentation" class=""><a href="#">Messages</a></li>
+    <li id="books" role="presentation" class=""><a href="#">Books</a></li>
+    <li id="searchHistory" role="presentation" class=""><a href="#">Search History</a></li>
 </ul>
 <hr />
 <div id="personalSettings" class="">
@@ -100,16 +101,60 @@
     <hr />
     @{Html.RenderAction("ChangePassword", "Manage");}
 </div>
+<div id="searchContent" class="display-none">
+    @{Html.RenderAction("Index", "Searches", new { id = User.Identity.GetUserId() });}
+</div>
+<div id="booksContent" class="display-none">
+    <div class="row">
+        <div class="col-sm-2">
+            <ul class="nav nav-pills nav-stacked">
+                <li id="BorrowedBook" role="presentation" class="active"><a href="#">Borrowed</a></li>
+                <li id="AwaitedBook" role="presentation"><a href="#">Awaited</a></li>
+                <li id="Archive" role="presentation"><a href="#">Archive</a></li>
+                <li id="Queue" role="presentation"><a href="#">Queue</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-10">
+            <div id="BorrowedBookContent" class="display-none">
+                ...
+            </div>
+            <div id="AwaitedBookContent" class="display-none">
+                @{Html.RenderAction("AwaitedBookList", "AwaitedBook", new { UserId = User.Identity.GetUserId() });}
+            </div>
+            <div id="ArchiveContent" class="display-none">
+
+            </div>
+            <div id="QueueContent" class="display-none">
+                @{Html.RenderAction("QueueList", "Queue", new { UserId = User.Identity.GetUserId() });}
+            </div>
+        </div>
+    </div>     
+</div>
 @section Scripts {
     <script type="text/javascript">
-    $(document).ready(function () {
+        $(document).ready(function () {
+
         function deactiveAll() {
             $("#home").removeClass('active');
             $("#profile").removeClass('active');
-            $("#messages").removeClass('active');
+            $("#books").removeClass('active');
+            $("#searchHistory").removeClass('active');
             $("#personalContent").addClass('display-none');
             $("#personalSettings").addClass('display-none');
+            $("#booksContent").addClass('display-none');
+            $("#searchContent").addClass('display-none');
         }
+
+        function deactiveAllBooksContent() {
+            $("#BorrowedBook").removeClass('active');
+            $("#AwaitedBook").removeClass('active');
+            $("#Archive").removeClass('active');
+            $("#Queue").removeClass('active');
+            $("#BorrowedBookContent").addClass('display-none');
+            $("#AwaitedBookContent").addClass('display-none');
+            $("#ArchiveContent").addClass('display-none');
+            $("#QueueContent").addClass('display-none');
+        }   
         debugger;
         $("#home").click(function () {
             deactiveAll();
@@ -121,11 +166,37 @@
             $("#profile").addClass('active');
             $("#personalContent").removeClass('display-none');
         });
-        $("#messages").click(function () {
+        $("#books").click(function () {
             deactiveAll();
-            $("#messages").addClass('active');
+            $("#books").addClass('active');
+            $("#booksContent").removeClass('display-none');
+        });
+        $("#searchHistory").click(function () {
+            deactiveAll();
+            $("#searchHistory").addClass('active');
+            $("#searchContent").removeClass('display-none');
+        });
+        //BooksContent
+        $("#BorrowedBook").click(function () {
+            deactiveAllBooksContent();
+            $("#BorrowedBook").addClass('active');
+            $("#BorrowedBookContent").removeClass('display-none');
+        });
+        $("#AwaitedBook").click(function () {
+            deactiveAllBooksContent();
+            $("#AwaitedBook").addClass('active');
+            $("#AwaitedBookContent").removeClass('display-none');
+        });
+        $("#Archive").click(function () {
+            deactiveAllBooksContent();
+            $("#Archive").addClass('active');
+            $("#ArchiveContent").removeClass('display-none');
+        });
+        $("#Queue").click(function () {
+            deactiveAllBooksContent();
+            $("#Queue").addClass('active');
+            $("#QueueContent").removeClass('display-none');
         });
     });
-
     </script>
 }

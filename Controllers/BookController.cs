@@ -41,6 +41,22 @@ namespace LibraryProject.Controllers
                              .Where(x => x.Author.Contains(input))
                              .ToList();
             }
+
+            ApplicationUserManager userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationUser applicationUser = userManager.FindById(User.Identity.GetUserId());
+
+            if (User.Identity.IsAuthenticated && applicationUser.isSearchSaveModeActivated)
+            {
+                Search search = new Search()
+                {
+                    Content = input,
+                    Type = selectedValue,
+                    CreationDate = DateTime.Now,
+                    ApplicationUserId = User.Identity.GetUserId()
+                };
+                db.Searches.Add(search);
+                db.SaveChanges();
+            }
             return View(bookModels);
         }
         // GET: ShoppingCart
@@ -106,7 +122,8 @@ namespace LibraryProject.Controllers
                 AwaitedBook awaitedBook = new AwaitedBook()
                 {
                     ApplicationUserId = applicationUser.Id,
-                    BookId = item.Id
+                    BookId = item.Id,
+                    CreationDate = DateTime.Now
                 };
                 db.AwaitedBooks.Add(awaitedBook);
             }
@@ -231,6 +248,36 @@ namespace LibraryProject.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(book).State = EntityState.Modified;
+
+                List<Queue> queues = db.Queues
+                                     .Include(x => x.ApplicationUser)
+                                     .Where(x => x.BookId == book.Id)
+                                     .OrderBy(x => x.Place)
+                                     .ToList();
+
+                int n = book.Quantity;
+                for(int i=0; i<book.Quantity; i++)
+                {
+                    AwaitedBook awaited = new AwaitedBook()
+                    {
+                        ApplicationUserId = queues[i].ApplicationUserId,
+                        BookId = book.Id,
+                        CreationDate = DateTime.Now
+                    };
+                    int position = queues.FindIndex(x => x.ApplicationUserId == queues[i].ApplicationUserId);
+                    
+                    db.Queues.Remove(queues[i]);
+                    db.AwaitedBooks.Add(awaited);
+                    book.Quantity--;
+                }
+                int o = n - book.Quantity;
+                if (queues.Count > 1)
+                {
+                    for (int i = 0; i < queues.Count; i++)
+                    {
+                        queues[i].Place -= n;
+                    }
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

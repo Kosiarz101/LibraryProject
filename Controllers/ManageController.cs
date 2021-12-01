@@ -64,13 +64,14 @@ namespace LibraryProject.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
             };
             return View(model);
         }
@@ -249,7 +250,8 @@ namespace LibraryProject.Controllers
             ChangeUserDataViewModel userViewModel = new ChangeUserDataViewModel()
             {
                 Email = user.Email,
-                UserName = user.UserName
+                UserName = user.UserName,
+                isSearchSaveModeActivated = user.isSearchSaveModeActivated
             };
             return View(userViewModel);
         }
@@ -267,6 +269,7 @@ namespace LibraryProject.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());            
             user.Email = model.Email;
             user.UserName = model.UserName;
+            user.isSearchSaveModeActivated = model.isSearchSaveModeActivated;
             var updateResult = UserManager.Update(user);
             return RedirectToAction("Index");
         }

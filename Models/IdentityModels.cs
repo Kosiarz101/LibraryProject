@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace LibraryProject.Models
     {
         public virtual ICollection<Search> Searches { get; set; }
         public virtual ICollection<AwaitedBook> AwaitedBooks { get; set; }
+        public virtual ICollection<Queue> Queues { get; set; }
+        [Display(Name = "Search Save Mode")]
+        public bool isSearchSaveModeActivated { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Element authenticationType musi pasować do elementu zdefiniowanego w elemencie CookieAuthenticationOptions.AuthenticationType
@@ -32,6 +36,7 @@ namespace LibraryProject.Models
         public DbSet<Information> Informations { get; set; }
         public DbSet<Search> Searches { get; set; }
         public DbSet<AwaitedBook> AwaitedBooks { get; set; }
+        public DbSet<Queue> Queues { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<BookTag> BookTags { get; set; }
         public static ApplicationDbContext Create()
@@ -42,6 +47,7 @@ namespace LibraryProject.Models
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<AwaitedBook>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
+            modelBuilder.Entity<Queue>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
             modelBuilder.Entity<BookTag>().HasKey(sc => new { sc.BookId, sc.TagName });
         }
     }
