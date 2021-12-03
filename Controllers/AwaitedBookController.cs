@@ -147,6 +147,7 @@ namespace LibraryProject.Controllers
             Book book = db.Books.Find(BookId);
             book.Quantity++;
             db.AwaitedBooks.Remove(awaitedBook);
+            db.ChangePlaceInQuery(book);
             db.SaveChanges();
             return RedirectToAction("../Manage/Index");
         }

@@ -1,7 +1,8 @@
-﻿@model LibraryProject.Models.IndexViewModel
+﻿
 @{
-    ViewBag.Title = "Zarządzaj";
+    ViewBag.Title = "EmployeeIndex";
 }
+
 @using Microsoft.AspNet.Identity
 <h2>@ViewBag.Title</h2>
 
@@ -9,8 +10,8 @@
 <ul class="nav nav-pills">
     <li id="home" role="presentation" class="active"><a href="#">Home</a></li>
     <li id="profile" role="presentation" class=""><a href="#">Profile</a></li>
+    <li id="database" role="presentation" class=""><a href="#">Database</a></li>
     <li id="books" role="presentation" class=""><a href="#">Books</a></li>
-    <li id="searchHistory" role="presentation" class=""><a href="#">Search History</a></li>
 </ul>
 <hr />
 <div id="personalSettings" class="">
@@ -101,34 +102,11 @@
     <hr />
     @{Html.RenderAction("ChangePassword", "Manage");}
 </div>
-<div id="searchContent" class="display-none">
-    @{Html.RenderAction("Index", "Searches", new { id = User.Identity.GetUserId() });}
+<div id="databaseContent" class="display-none">
+    @{Html.RenderPartial("EmployeeDatabase", "Manage");}
 </div>
 <div id="booksContent" class="display-none">
-    <div class="row">
-        <div class="col-sm-2">
-            <ul class="nav nav-pills nav-stacked">
-                <li id="BorrowedBook" role="presentation" class="active"><a href="#">Borrowed</a></li>
-                <li id="AwaitedBook" role="presentation"><a href="#">Awaited</a></li>
-                <li id="Archive" role="presentation"><a href="#">Archive</a></li>
-                <li id="Queue" role="presentation"><a href="#">Queue</a></li>
-            </ul>
-        </div>
-        <div class="col-sm-10">
-            <div id="BorrowedBookContent" class="">
-                @{Html.RenderAction("BorrowedBookList", "BorrowedBook", new { UserId = User.Identity.GetUserId() });}
-            </div>
-            <div id="AwaitedBookContent" class="display-none">
-                @{Html.RenderAction("AwaitedBookList", "AwaitedBook", new { UserId = User.Identity.GetUserId() });}
-            </div>
-            <div id="ArchiveContent" class="display-none">
-                @{Html.RenderAction("ArchiveList", "Archive", new { UserId = User.Identity.GetUserId() });}
-            </div>
-            <div id="QueueContent" class="display-none">
-                @{Html.RenderAction("QueueList", "Queue", new { UserId = User.Identity.GetUserId() });}
-            </div>
-        </div>
-    </div>     
+    @{Html.RenderAction("EmployeeSearchUser", "Manage");}
 </div>
 @section Scripts {
     <script type="text/javascript">
@@ -138,11 +116,11 @@
             $("#home").removeClass('active');
             $("#profile").removeClass('active');
             $("#books").removeClass('active');
-            $("#searchHistory").removeClass('active');
+            $("#database").removeClass('active');
             $("#personalContent").addClass('display-none');
             $("#personalSettings").addClass('display-none');
             $("#booksContent").addClass('display-none');
-            $("#searchContent").addClass('display-none');
+            $("#databaseContent").addClass('display-none');
         }
 
         function deactiveAllBooksContent() {
@@ -154,7 +132,7 @@
             $("#AwaitedBookContent").addClass('display-none');
             $("#ArchiveContent").addClass('display-none');
             $("#QueueContent").addClass('display-none');
-        }   
+        }
         debugger;
         $("#home").click(function () {
             deactiveAll();
@@ -171,10 +149,10 @@
             $("#books").addClass('active');
             $("#booksContent").removeClass('display-none');
         });
-        $("#searchHistory").click(function () {
+            $("#database").click(function () {
             deactiveAll();
-            $("#searchHistory").addClass('active');
-            $("#searchContent").removeClass('display-none');
+            $("#database").addClass('active');
+            $("#databaseContent").removeClass('display-none');
         });
         //BooksContent
         $("#BorrowedBook").click(function () {
@@ -200,3 +178,4 @@
     });
     </script>
 }
+

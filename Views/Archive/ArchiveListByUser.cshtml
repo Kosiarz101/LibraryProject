@@ -1,6 +1,6 @@
-﻿@model List<LibraryProject.Models.AwaitedBook>
+﻿@model List<LibraryProject.Models.Archive>
 @{
-    ViewBag.Title = "AwaitedBookListByUser";
+    ViewBag.Title = "ArchiveList";
     Layout = null;
 }
 
@@ -26,10 +26,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CreationDate)
                 </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", "Book", new { id = item.BookId }, null) |
-                    @Html.ActionLink("Cancel Order", "Delete", "AwaitedBook", new { UserId = User.Identity.GetUserId(), BookId = item.BookId }, null)
-                </td>
             </tr>
         }
 
@@ -37,7 +33,6 @@
 }
 else
 {
-    <h4>You are not awaiting any books right now</h4>
+    <h4>You don't have any book in archive</h4>
 }
-
 

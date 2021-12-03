@@ -13,6 +13,8 @@ namespace LibraryProject.Models
     {
         public virtual ICollection<Search> Searches { get; set; }
         public virtual ICollection<AwaitedBook> AwaitedBooks { get; set; }
+        public virtual ICollection<BorrowedBook> BorrowedBooks { get; set; }
+        public virtual ICollection<Archive> Archives { get; set; }
         public virtual ICollection<Queue> Queues { get; set; }
         [Display(Name = "Search Save Mode")]
         public bool isSearchSaveModeActivated { get; set; }
@@ -36,6 +38,8 @@ namespace LibraryProject.Models
         public DbSet<Information> Informations { get; set; }
         public DbSet<Search> Searches { get; set; }
         public DbSet<AwaitedBook> AwaitedBooks { get; set; }
+        public DbSet<BorrowedBook> BorrowedBooks { get; set; }
+        public DbSet<Archive> Archives { get; set; }
         public DbSet<Queue> Queues { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<BookTag> BookTags { get; set; }
@@ -48,6 +52,8 @@ namespace LibraryProject.Models
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<AwaitedBook>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
             modelBuilder.Entity<Queue>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
+            modelBuilder.Entity<BorrowedBook>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
+            modelBuilder.Entity<Archive>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
             modelBuilder.Entity<BookTag>().HasKey(sc => new { sc.BookId, sc.TagName });
         }
     }

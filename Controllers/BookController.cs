@@ -111,7 +111,15 @@ namespace LibraryProject.Controllers
                                                .Include(x => x.Book)
                                                .Where(x => ids.Contains(x.BookId))
                                                .ToList();
-            if(awaitedBooks.Count > 0)
+
+            //Get all books that current user borrowed
+            List<BorrowedBook> borrowedBooks = db.BorrowedBooks
+                                               .Include(x => x.ApplicationUser)
+                                               .Where(x => x.ApplicationUserId == applicationUser.Id)
+                                               .Include(x => x.Book)
+                                               .Where(x => ids.Contains(x.BookId))
+                                               .ToList();
+            if (awaitedBooks.Count > 0 || borrowedBooks.Count > 0)
             {
                 ViewData["message"] = "You have already borrowed one of a book from a cart";
                 ViewData["messageType"] = "info";
@@ -255,29 +263,32 @@ namespace LibraryProject.Controllers
                                      .OrderBy(x => x.Place)
                                      .ToList();
 
-                int n = book.Quantity;
-                for(int i=0; i<book.Quantity; i++)
+                if (queues.Count != 0)
                 {
-                    AwaitedBook awaited = new AwaitedBook()
+                    int n = book.Quantity;
+                    for (int i = 0; i < book.Quantity; i++)
                     {
-                        ApplicationUserId = queues[i].ApplicationUserId,
-                        BookId = book.Id,
-                        CreationDate = DateTime.Now
-                    };
-                    int position = queues.FindIndex(x => x.ApplicationUserId == queues[i].ApplicationUserId);
-                    
-                    db.Queues.Remove(queues[i]);
-                    db.AwaitedBooks.Add(awaited);
-                    book.Quantity--;
-                }
-                int o = n - book.Quantity;
-                if (queues.Count > 1)
-                {
-                    for (int i = 0; i < queues.Count; i++)
-                    {
-                        queues[i].Place -= n;
+                        AwaitedBook awaited = new AwaitedBook()
+                        {
+                            ApplicationUserId = queues[i].ApplicationUserId,
+                            BookId = book.Id,
+                            CreationDate = DateTime.Now
+                        };
+                        int position = queues.FindIndex(x => x.ApplicationUserId == queues[i].ApplicationUserId);
+
+                        db.Queues.Remove(queues[i]);
+                        db.AwaitedBooks.Add(awaited);
+                        book.Quantity--;
                     }
-                }
+                    int o = n - book.Quantity;
+                    if (queues.Count > 1)
+                    {
+                        for (int i = 0; i < queues.Count; i++)
+                        {
+                            queues[i].Place -= n;
+                        }
+                    }
+                }               
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

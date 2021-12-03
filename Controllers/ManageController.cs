@@ -7,6 +7,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LibraryProject.Models;
+using System.Web.Security;
+using System.Collections;
+using System.Net;
+using System.Data.Entity;
 
 namespace LibraryProject.Controllers
 {
@@ -15,6 +19,7 @@ namespace LibraryProject.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -73,6 +78,19 @@ namespace LibraryProject.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
             };
+            var roles = UserManager.GetRoles(User.Identity.GetUserId());
+            for(int i=0; i<roles.Count; i++)
+            {
+                switch(roles[i].ToLower())
+                {
+                    case "reader":
+                        return View("Index", model);
+                    case "admin":
+                        return View("Index", model);
+                    case "employee":
+                        return View("EmployeeIndex", model);
+                }
+            }
             return View(model);
         }
 
@@ -304,6 +322,31 @@ namespace LibraryProject.Controllers
 
             // Jeśli dotarliśmy tak daleko, oznacza to, że wystąpił błąd. Wyświetl ponownie formularz
             return View(model);
+        }
+
+        //GET: /Manage/EmployeeSearchUser
+        public ActionResult EmployeeSearchUser(string search)
+        {
+            if (search == null)
+                return View();
+            var users = db.Users
+                        .Where(x => x.Email.ToLower().Contains(search))
+                        .ToList();
+            return View(users);
+        }
+
+        [AuthorizeCorrectRedirection(Roles = "Admin,Employee")]
+        //GET: /Manage/UserPage
+        public async Task<ActionResult> UserPage(string id)
+        {
+            if(id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var user = await db.Users
+                             .Where(x => x.Id == id)
+                             .Include(x => x.AwaitedBooks)
+                             .Include(x => x.Queues)
+                             .FirstOrDefaultAsync();
+            return View(user);
         }
 
         //

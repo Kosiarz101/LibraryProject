@@ -1,0 +1,221 @@
+﻿
+@{
+    ViewBag.Title = "UserPage";
+}
+@model LibraryProject.Models.ApplicationUser
+<h2>UserPage</h2>
+<div id="Message">
+
+</div>
+<hr />
+<div>
+    <div class="row d-flex">
+        <div class="col-sm-3">
+            <h4>
+                @Html.DisplayNameFor(model => model.Email)
+            </h4>
+        </div>
+        <div class="col-auto">
+            <h4>
+                @Html.DisplayFor(model => model.Email)
+            </h4>
+        </div>
+    </div>
+    <div class="row d-flex">
+        <div class="col-sm-3">
+            <h4>
+                @Html.DisplayNameFor(model => model.UserName)
+            </h4>
+        </div>
+        <div class="col-auto">
+            <h4>
+                @Html.DisplayFor(model => model.UserName)
+            </h4>
+        </div>
+    </div>
+    <div class="row d-flex">
+        <div class="col-sm-3">
+            <h3>
+                Books
+            </h3>
+        </div>
+    </div>
+    <hr />
+    <div class="row d-flex">
+        <div class="col-sm-12">
+            <h4>Borrowed Books</h4>
+            @if (Model.BorrowedBooks.Count > 0)
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BorrowedBooks.ElementAt(0).Book.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BorrowedBooks.ElementAt(0).CreationDate)
+                        </th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model.BorrowedBooks)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Book.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreationDate)
+                            </td>
+                            <td style="text-align: right;">
+                                @using (Html.BeginForm("CreateFromUserPage", "Archive"))
+                                {
+                                    <input type="hidden" name="UserId" value="@Model.Id" />
+                                    <input type="hidden" name="BookId" value="@item.BookId" />
+                                    <button type="submit" class="fake-button">Add To Archive</button>
+                                }
+                                @Html.ActionLink("Details", "Details", "Book", new { id = item.BookId}, null)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <h5>This user hasn't borrowed any book yet</h5>
+            }
+        </div>
+    </div>
+    <div class="row d-flex">
+        <div class="col-sm-12">
+            <h4>Awaited books</h4>
+            @if (Model.AwaitedBooks.Count > 0)
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AwaitedBooks.ElementAt(0).Book.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AwaitedBooks.ElementAt(0).CreationDate)
+                        </th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model.AwaitedBooks)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Book.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreationDate)
+                            </td>
+                            <td style="text-align: right;">
+                                @using (Html.BeginForm("CreateAjax", "BorrowedBook"))
+                                {
+                                    <input type="hidden" name="UserId" value="@Model.Id" />
+                                    <input type="hidden" name="BookId" value="@item.BookId" />
+                                    <button type="submit" class="fake-button">Add To Borrowed</button>
+                                }
+                                @Html.ActionLink("Cancel Order", "Delete", "AwaitedBook", new { UserId = Model.Id, BookId = item.BookId }, null) |
+                                @Html.ActionLink("Details", "Details", "Book", new { UserId = Model.Id, BookId = item.BookId }, null)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <h5>This user is not awaiting for any book</h5>
+            }
+        </div>
+    </div>
+    <div class="row d-flex">
+        <div class="col-sm-12">
+            <h4>Archive</h4>
+            @if (Model.Archives.Count > 0)
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Archives.ElementAt(0).Book.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Archives.ElementAt(0).CreationDate)
+                        </th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model.Archives)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Book.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreationDate)
+                            </td>
+                            <td style="text-align: right;">
+                                @Html.ActionLink("Details", "Details", "Book", new { id = item.BookId }, null)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <h5>This user hasn't had any book in a archive</h5>
+            }
+        </div>
+    </div>
+    <div class="row d-flex">
+        <div class="col-sm-12">
+            <h4>Queue</h4>
+            @if (Model.Queues.Count > 0)
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Queues.ElementAt(0).Book.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Queues.ElementAt(0).CreationDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Queues.ElementAt(0).Place)
+                        </th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model.Queues)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Book.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreationDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Place)
+                            </td>
+                            <td style="text-align: right;">
+                                @Html.ActionLink("Delete from queue", "Delete", "Queue", new { UserId = Model.Id, BookId = item.BookId }, null)
+                                @Html.ActionLink("Details", "Details", "Book", new { id = item.BookId }, null)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <h5>This user hasn't joinee any queue</h5>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+
+}
+
+

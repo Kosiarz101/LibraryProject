@@ -168,8 +168,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\AwaitedBookController.cs" />
     <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\BorrowedBookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InformationController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -211,12 +213,20 @@
     <Compile Include="Migrations\202112011838432_ModifyQueueAndAwaitedBooks.Designer.cs">
       <DependentUpon>202112011838432_ModifyQueueAndAwaitedBooks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202112022335395_AddBorrowedBooksAndArchive.cs" />
+    <Compile Include="Migrations\202112022335395_AddBorrowedBooksAndArchive.Designer.cs">
+      <DependentUpon>202112022335395_AddBorrowedBooksAndArchive.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Archive.cs" />
+    <Compile Include="Models\AuthorizeCorrectRedirection.cs" />
     <Compile Include="Models\AwaitedBook.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookPageViewModel.cs" />
     <Compile Include="Models\BookTag.cs" />
+    <Compile Include="Models\BorrowedBook.cs" />
+    <Compile Include="Models\DbExtensionMethods.cs" />
     <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Information.cs" />
@@ -322,6 +332,23 @@
     <Content Include="Views\AwaitedBook\Edit.cshtml" />
     <Content Include="Views\AwaitedBook\Index.cshtml" />
     <Content Include="Views\AwaitedBook\AwaitedBookListByUser.cshtml" />
+    <Content Include="Views\Manage\EmployeeIndex.cshtml" />
+    <Content Include="Views\Manage\EmployeeDatabase.cshtml" />
+    <Content Include="Views\Manage\UserPage.cshtml" />
+    <Content Include="Views\Manage\EmployeeSearchUser.cshtml" />
+    <Content Include="Views\BorrowedBook\Create.cshtml" />
+    <Content Include="Views\BorrowedBook\Delete.cshtml" />
+    <Content Include="Views\BorrowedBook\Details.cshtml" />
+    <Content Include="Views\BorrowedBook\Edit.cshtml" />
+    <Content Include="Views\BorrowedBook\Index.cshtml" />
+    <Content Include="Views\BorrowedBook\BorrowedBookListByUser.cshtml" />
+    <Content Include="Views\Archive\Create.cshtml" />
+    <Content Include="Views\Archive\Delete.cshtml" />
+    <Content Include="Views\Archive\Details.cshtml" />
+    <Content Include="Views\Archive\Edit.cshtml" />
+    <Content Include="Views\Archive\Index.cshtml" />
+    <Content Include="Views\Archive\ArchiveListByUser.cshtml" />
+    <Content Include="Views\Shared\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -364,6 +391,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202112011838432_ModifyQueueAndAwaitedBooks.resx">
       <DependentUpon>202112011838432_ModifyQueueAndAwaitedBooks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112022335395_AddBorrowedBooksAndArchive.resx">
+      <DependentUpon>202112022335395_AddBorrowedBooksAndArchive.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
