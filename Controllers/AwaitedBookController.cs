@@ -36,10 +36,14 @@ namespace LibraryProject.Controllers
             }
             else if (BookId == null)
             {
+                string bookLimit = db.GlobalParameters.Where(x => x.Name.ToLower() == "book limit").FirstOrDefault().Value;
+                ViewData["booklimit"] = bookLimit;               
                 List<AwaitedBook> queues = db.AwaitedBooks
                                      .Include(x => x.Book)
                                      .Where(x => x.ApplicationUserId == UserId)
                                      .ToList();
+                int borrowedBooksCount = db.BorrowedBooks.Where(x => x.ApplicationUserId == UserId).Count();
+                ViewData["booksleft"] = Int32.Parse(bookLimit) - (queues.Count + borrowedBooksCount);
                 return View("AwaitedBookListByUser", queues);
             }
             return View();

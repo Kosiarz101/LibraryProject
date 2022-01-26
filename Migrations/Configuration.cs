@@ -56,6 +56,16 @@ namespace LibraryProject.Migrations
                     WasEdited = false
                 });
             }
+            //Limits
+            if (!context.GlobalParameters.Any(x => x.Name.ToLower() == "book limit"))
+            {
+                context.GlobalParameters.AddOrUpdate(x => x.Id,
+                new Models.GlobalParameter()
+                {
+                    Name = "Book Limit",
+                    Value = "5"
+                });
+            }
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

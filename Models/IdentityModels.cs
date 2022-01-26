@@ -43,6 +43,7 @@ namespace LibraryProject.Models
         public DbSet<Queue> Queues { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<BookTag> BookTags { get; set; }
+        public DbSet<GlobalParameter> GlobalParameters { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

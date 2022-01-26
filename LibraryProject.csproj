@@ -222,6 +222,10 @@
     <Compile Include="Migrations\202112181235257_ModifyArchive.Designer.cs">
       <DependentUpon>202112181235257_ModifyArchive.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202201262123213_AddGlobalParameters.cs" />
+    <Compile Include="Migrations\202201262123213_AddGlobalParameters.Designer.cs">
+      <DependentUpon>202201262123213_AddGlobalParameters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Archive.cs" />
@@ -232,6 +236,7 @@
     <Compile Include="Models\BookTag.cs" />
     <Compile Include="Models\BorrowedBook.cs" />
     <Compile Include="Models\DbExtensionMethods.cs" />
+    <Compile Include="Models\GlobalParameter.cs" />
     <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Information.cs" />
@@ -409,6 +414,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202112181235257_ModifyArchive.resx">
       <DependentUpon>202112181235257_ModifyArchive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202201262123213_AddGlobalParameters.resx">
+      <DependentUpon>202201262123213_AddGlobalParameters.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
