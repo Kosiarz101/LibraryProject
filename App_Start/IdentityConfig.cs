@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using LibraryProject.Models;
+using System.Net.Mail;
 
 namespace LibraryProject
 {
@@ -18,7 +19,13 @@ namespace LibraryProject
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Dołącz tutaj usługę poczty e-mail, aby wysłać wiadomość e-mail.
+            MailMessage mailMessage = new MailMessage("yourfavouritecinema@gmail.com", message.Destination);
+            mailMessage.Subject = message.Subject;
+            mailMessage.Body = message.Body;
+            mailMessage.IsBodyHtml = true;
+
+            SmtpClient smtpClient = new SmtpClient();
+            smtpClient.Send(mailMessage);
             return Task.FromResult(0);
         }
     }

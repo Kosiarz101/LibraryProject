@@ -10,10 +10,12 @@ using LibraryProject.Models;
 
 namespace LibraryProject.Controllers
 {
+    [AuthorizeCorrectRedirection(Roles = "Admin,Employee")]
     public class TagController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [AllowAnonymous]
         //GET: TagSearch
         public ActionResult TagSearch(string name)
         {
@@ -32,6 +34,7 @@ namespace LibraryProject.Controllers
             return View(db.Tags.ToList());
         }
 
+        [AllowAnonymous]
         // GET: Tag/Details/5
         public ActionResult Details(string id)
         {

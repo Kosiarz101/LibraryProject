@@ -53,7 +53,14 @@ namespace LibraryProject.Models
             modelBuilder.Entity<AwaitedBook>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
             modelBuilder.Entity<Queue>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
             modelBuilder.Entity<BorrowedBook>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
-            modelBuilder.Entity<Archive>().HasKey(sc => new { sc.ApplicationUserId, sc.BookId });
+            modelBuilder.Entity<Archive>()
+                .HasRequired<Book>(x => x.Book)
+                .WithMany(x => x.Archives)
+                .HasForeignKey(x => x.BookId);
+            modelBuilder.Entity<Archive>()
+                 .HasRequired<ApplicationUser>(x => x.ApplicationUser)
+                 .WithMany(x => x.Archives)
+                 .HasForeignKey(x => x.ApplicationUserId);
             modelBuilder.Entity<BookTag>().HasKey(sc => new { sc.BookId, sc.TagName });
         }
     }

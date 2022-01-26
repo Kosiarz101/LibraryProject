@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LibraryProject.Models;
+using System.Net.Mail;
 
 namespace LibraryProject.Controllers
 {
@@ -152,17 +153,21 @@ namespace LibraryProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                //ApplicationDbContext context = new ApplicationDbContext();
+                //var role = context.Roles.Where(x => x.Name == "Employee").FirstOrDefault();
+                //var employee = context.Users.Where(x => x.Roles.Any(y => y.RoleId == role.Id)).ToList();
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, isSearchSaveModeActivated = false};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // Aby uzyskać więcej informacji o sposobie włączania potwierdzania konta i resetowaniu hasła, odwiedź stronę https://go.microsoft.com/fwlink/?LinkID=320771
                     // Wyślij wiadomość e-mail z tym łączem
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Potwierdź konto", "Potwierdź konto, klikając <a href=\"" + callbackUrl + "\">tutaj</a>");
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm Account", "Confirm your email by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -171,6 +176,56 @@ namespace LibraryProject.Controllers
 
             // Dotarcie do tego miejsca wskazuje, że wystąpił błąd, wyświetl ponownie formularz
             return View(model);
+        }
+        //
+        // GET: /Account/RegisterEmployee
+        [AuthorizeCorrectRedirection(Roles = "Admin")]
+        public ActionResult RegisterEmployee()
+        {
+            return View();
+        }
+        // POST: /Account/RegisterEmployee
+        [HttpPost]
+        [AuthorizeCorrectRedirection(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterEmployee(string email)
+        {
+            if (ModelState.IsValid)
+            {
+                //ApplicationDbContext context = new ApplicationDbContext();
+                //var role = context.Roles.Where(x => x.Name == "Employee").FirstOrDefault();
+                //var employee = context.Users.Where(x => x.Roles.Any(y => y.RoleId == role.Id)).ToList();
+                var isUserInDatabase = await UserManager.FindByEmailAsync(email);
+                if (isUserInDatabase != null)
+                {
+                    ModelState.AddModelError("isInDatabase", "The employee is already in the database");
+                    return View();
+                }
+                var user = new ApplicationUser { UserName = email, Email = email, isSearchSaveModeActivated = false };
+                var result = await UserManager.CreateAsync(user);
+                await UserManager.AddToRoleAsync(user.Id, "Employee");              
+
+                if (result.Succeeded)
+                {
+                    string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id,
+                                                     "New Password",
+                                                     "You can avtivate your account and set your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    // Aby uzyskać więcej informacji o sposobie włączania potwierdzania konta i resetowaniu hasła, odwiedź stronę https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Wyślij wiadomość e-mail z tym łączem
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Potwierdź konto", "Potwierdź konto, klikając <a href=\"" + callbackUrl + "\">tutaj</a>");
+
+                    return RedirectToAction("Index", "Manage");
+                }
+                AddErrors(result);
+            }
+
+            // Dotarcie do tego miejsca wskazuje, że wystąpił błąd, wyświetl ponownie formularz
+            return View();
         }
 
         //
@@ -212,10 +267,12 @@ namespace LibraryProject.Controllers
 
                 // Aby uzyskać więcej informacji o sposobie włączania potwierdzania konta i resetowaniu hasła, odwiedź stronę https://go.microsoft.com/fwlink/?LinkID=320771
                 // Wyślij wiadomość e-mail z tym łączem
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Resetuj hasło", "Resetuj hasło, klikając <a href=\"" + callbackUrl + "\">tutaj</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, 
+                                                 "Reset Password",  
+                                                 "Reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // Dotarcie do tego miejsca wskazuje, że wystąpił błąd, wyświetl ponownie formularz
@@ -233,8 +290,15 @@ namespace LibraryProject.Controllers
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
+        public ActionResult ResetPassword(string userId, string code)
         {
+            var user = UserManager.FindById(userId);
+            if (user == null)
+            {
+                // Nie ujawniaj informacji o tym, że użytkownik nie istnieje
+                return RedirectToAction("ResetPasswordConfirmation", "Account");
+            }
+            ViewData["userEmail"] = user.Email;
             return code == null ? View("Error") : View();
         }
 
@@ -256,6 +320,11 @@ namespace LibraryProject.Controllers
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            if (user.EmailConfirmed == false)
+            {
+                string emailConfirmation = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                await UserManager.ConfirmEmailAsync(user.Id, emailConfirmation);
+            }
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");

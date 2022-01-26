@@ -4,20 +4,7 @@
     Layout = null;
 }
 
-@using (Html.BeginForm("EmployeeSearchUser", "Manage", FormMethod.Get))
-{
-    <div class="form-inline" style="margin-top: 6px;">
-        <input class="form-control" type="search" name="search" placeholder="Search User By Email" aria-label="Search">
-        <button class="btn btn-primary" type="submit">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-        </button>
-        @*<select class="form-control" name="selectedValue" aria-label="Default select example">
-            <option value="title">Title</option>
-            <option value="isbn">ISBN</option>
-            <option value="author">Author</option>
-        </select>*@
-    </div>
-}
+
 @if (Model != null)
 {
     <table class="table">
@@ -48,4 +35,5 @@
 
     </table>
 }
+
 

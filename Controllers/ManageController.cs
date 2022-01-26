@@ -60,7 +60,7 @@ namespace LibraryProject.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Zmieniono hasło."
+                message == ManageMessageId.ChangePasswordSuccess ? "Password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Ustawiono hasło."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Ustawiono dostawcę uwierzytelniania dwuetapowego."
                 : message == ManageMessageId.Error ? "Wystąpił błąd."
@@ -86,7 +86,7 @@ namespace LibraryProject.Controllers
                     case "reader":
                         return View("Index", model);
                     case "admin":
-                        return View("Index", model);
+                        return View("AdminIndex", model);
                     case "employee":
                         return View("EmployeeIndex", model);
                 }

@@ -1,14 +1,15 @@
-﻿@model LibraryProject.Models.ForgotPasswordViewModel
+﻿@model LibraryProject.Models.RegisterViewModel
 @{
-    ViewBag.Title = "You forgot your password?";
+    ViewBag.Title = "RegisterEmployee";
 }
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("ForgotPassword", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("RegisterEmployee", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Enter your email address.</h4>
+    <h4>Create employee account</h4>
+    <h5>Email with password reset will be send to this email address. User with this email will acquire an employee privilige</h5>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
@@ -19,11 +20,11 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-primary" value="Send" />
+            <input type="submit" class="btn btn-default" value="Create" />
         </div>
     </div>
 }
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+

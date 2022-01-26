@@ -253,6 +253,7 @@ namespace LibraryProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,Describtion,ISPNNumber,Author,CreationDate,PublicationDate,Quantity")] Book book)
         {
+            ApplicationUserManager userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             if (ModelState.IsValid)
             {
                 db.Entry(book).State = EntityState.Modified;
@@ -266,19 +267,32 @@ namespace LibraryProject.Controllers
                 if (queues.Count != 0)
                 {
                     int n = book.Quantity;
-                    for (int i = 0; i < book.Quantity; i++)
+                    for (int i = 0; i < n; i++)
                     {
                         AwaitedBook awaited = new AwaitedBook()
                         {
-                            ApplicationUserId = queues[i].ApplicationUserId,
+                            ApplicationUserId = queues[0].ApplicationUserId,
                             BookId = book.Id,
                             CreationDate = DateTime.Now
                         };
-                        int position = queues.FindIndex(x => x.ApplicationUserId == queues[i].ApplicationUserId);
+                        int position = queues.FindIndex(x => x.ApplicationUserId == queues[0].ApplicationUserId);
 
-                        db.Queues.Remove(queues[i]);
+                        db.Queues.Remove(queues[0]);
                         db.AwaitedBooks.Add(awaited);
                         book.Quantity--;
+                        queues.RemoveAt(0);
+
+                        var user = userManager.FindByIdAsync(awaited.ApplicationUserId).Result;
+                        if (user.EmailConfirmed)
+                        {
+                             userManager.SendEmailAsync(user.Id,
+                                                       "Book " + book.Title + " is now available",
+                                                       "Book <b>" + book.Title + "</b> is now available and has been moved to your account. Book is awaiting for you in library.");
+                        }
+                        if(queues.Count == 0)
+                        {
+                            break;
+                        }
                     }
                     int o = n - book.Quantity;
                     if (queues.Count > 1)
@@ -290,6 +304,9 @@ namespace LibraryProject.Controllers
                     }
                 }               
                 db.SaveChanges();
+                //Send email informing this user about getting his book
+                
+                
                 return RedirectToAction("Index");
             }
             return View(book);

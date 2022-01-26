@@ -10,6 +10,7 @@ using LibraryProject.Models;
 
 namespace LibraryProject.Controllers
 {
+    [AuthorizeCorrectRedirection(Roles = "Admin")]
     public class InformationController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -19,7 +20,7 @@ namespace LibraryProject.Controllers
         {
             return View(db.Informations.ToList());
         }
-
+        [AllowAnonymous]
         // GET: Information/Details/5
         public ActionResult Details(int? id)
         {
@@ -91,8 +92,7 @@ namespace LibraryProject.Controllers
                 return RedirectToAction("Index");
             }
             return View(information);
-        }
-
+        }        
         // GET: Information/Delete/5
         public ActionResult Delete(int? id)
         {

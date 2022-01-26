@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "EmployeeIndex";
+    ViewBag.Title = "AdminIndex";
 }
 
 @using Microsoft.AspNet.Identity
@@ -12,6 +12,7 @@
     <li id="profile" role="presentation" class=""><a href="#">Profile</a></li>
     <li id="database" role="presentation" class=""><a href="#">Database</a></li>
     <li id="books" role="presentation" class=""><a href="#">Books</a></li>
+    <li id="articles" role="presentation" class=""><a href="#">Articles</a></li>
 </ul>
 <hr />
 <div id="personalSettings" class="">
@@ -106,84 +107,94 @@
     @{Html.RenderPartial("EmployeeDatabase", "Manage");}
 </div>
 <div id="booksContent" class="display-none">
+    @Html.ActionLink("Create Employee Account","RegisterEmployee", "Account", null, new { @Class="btn btn-default" })
     <div class="form-inline" style="margin-top: 6px;">
         <input id="inputUser" class="form-control" type="search" name="search" placeholder="Search User By Email" aria-label="Search">
         <button id="buttonSubmit" class="btn btn-primary" type="submit">
             <span id="iconSubmit" class="glyphicon glyphicon-search" aria-hidden="true"></span>
         </button>
-
     </div>
     <div id="Message">
 
     </div>
 </div>
+<div id="articlesContent" class="display-none">
+    @{Html.RenderAction("Index", "Information");}
+</div>
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
 
-        function deactiveAll() {
-            $("#home").removeClass('active');
-            $("#profile").removeClass('active');
-            $("#books").removeClass('active');
-            $("#database").removeClass('active');
-            $("#personalContent").addClass('display-none');
-            $("#personalSettings").addClass('display-none');
-            $("#booksContent").addClass('display-none');
-            $("#databaseContent").addClass('display-none');
-        }
+            function deactiveAll() {
+                $("#home").removeClass('active');
+                $("#profile").removeClass('active');
+                $("#books").removeClass('active');
+                $("#database").removeClass('active');
+                $("#articles").removeClass('active');
+                $("#personalContent").addClass('display-none');
+                $("#personalSettings").addClass('display-none');
+                $("#booksContent").addClass('display-none');
+                $("#databaseContent").addClass('display-none');
+                $("#articlesContent").addClass('display-none');
+            }
 
-        function deactiveAllBooksContent() {
-            $("#BorrowedBook").removeClass('active');
-            $("#AwaitedBook").removeClass('active');
-            $("#Archive").removeClass('active');
-            $("#Queue").removeClass('active');
-            $("#BorrowedBookContent").addClass('display-none');
-            $("#AwaitedBookContent").addClass('display-none');
-            $("#ArchiveContent").addClass('display-none');
-            $("#QueueContent").addClass('display-none');
-        }
-        $("#home").click(function () {
-            deactiveAll();
-            $("#home").addClass('active');
-            $("#personalSettings").removeClass('display-none');
-        });
-        $("#profile").click(function () {
-            deactiveAll();
-            $("#profile").addClass('active');
-            $("#personalContent").removeClass('display-none');
-        });
-        $("#books").click(function () {
-            deactiveAll();
-            $("#books").addClass('active');
-            $("#booksContent").removeClass('display-none');
-        });
+            function deactiveAllBooksContent() {
+                $("#BorrowedBook").removeClass('active');
+                $("#AwaitedBook").removeClass('active');
+                $("#Archive").removeClass('active');
+                $("#Queue").removeClass('active');
+                $("#BorrowedBookContent").addClass('display-none');
+                $("#AwaitedBookContent").addClass('display-none');
+                $("#ArchiveContent").addClass('display-none');
+                $("#QueueContent").addClass('display-none');
+            }
+            $("#home").click(function () {
+                deactiveAll();
+                $("#home").addClass('active');
+                $("#personalSettings").removeClass('display-none');
+            });
+            $("#profile").click(function () {
+                deactiveAll();
+                $("#profile").addClass('active');
+                $("#personalContent").removeClass('display-none');
+            });
+            $("#books").click(function () {
+                deactiveAll();
+                $("#books").addClass('active');
+                $("#booksContent").removeClass('display-none');
+            });
             $("#database").click(function () {
-            deactiveAll();
-            $("#database").addClass('active');
-            $("#databaseContent").removeClass('display-none');
-        });
-        //BooksContent
-        $("#BorrowedBook").click(function () {
-            deactiveAllBooksContent();
-            $("#BorrowedBook").addClass('active');
-            $("#BorrowedBookContent").removeClass('display-none');
-        });
-        $("#AwaitedBook").click(function () {
-            deactiveAllBooksContent();
-            $("#AwaitedBook").addClass('active');
-            $("#AwaitedBookContent").removeClass('display-none');
-        });
-        $("#Archive").click(function () {
-            deactiveAllBooksContent();
-            $("#Archive").addClass('active');
-            $("#ArchiveContent").removeClass('display-none');
-        });
-        $("#Queue").click(function () {
-            deactiveAllBooksContent();
-            $("#Queue").addClass('active');
-            $("#QueueContent").removeClass('display-none');
-        });
-        //Search
+                deactiveAll();
+                $("#database").addClass('active');
+                $("#databaseContent").removeClass('display-none');
+            });
+            $("#articles").click(function () {
+                deactiveAll();
+                $("#articles").addClass('active');
+                $("#articlesContent").removeClass('display-none');
+            });
+            //BooksContent
+            $("#BorrowedBook").click(function () {
+                deactiveAllBooksContent();
+                $("#BorrowedBook").addClass('active');
+                $("#BorrowedBookContent").removeClass('display-none');
+            });
+            $("#AwaitedBook").click(function () {
+                deactiveAllBooksContent();
+                $("#AwaitedBook").addClass('active');
+                $("#AwaitedBookContent").removeClass('display-none');
+            });
+            $("#Archive").click(function () {
+                deactiveAllBooksContent();
+                $("#Archive").addClass('active');
+                $("#ArchiveContent").removeClass('display-none');
+            });
+            $("#Queue").click(function () {
+                deactiveAllBooksContent();
+                $("#Queue").addClass('active');
+                $("#QueueContent").removeClass('display-none');
+            });
+            //Search
             $("#buttonSubmit").click(function () {
                 var str = $("#inputUser").val();
                 $.ajax({
@@ -195,7 +206,7 @@
                     },
                 });
             });
-    });
+        });
     </script>
 }
 

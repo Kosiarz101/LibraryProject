@@ -171,6 +171,7 @@
     <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\AwaitedBookController.cs" />
     <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\BookTagController.cs" />
     <Compile Include="Controllers\BorrowedBookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InformationController.cs" />
@@ -216,6 +217,10 @@
     <Compile Include="Migrations\202112022335395_AddBorrowedBooksAndArchive.cs" />
     <Compile Include="Migrations\202112022335395_AddBorrowedBooksAndArchive.Designer.cs">
       <DependentUpon>202112022335395_AddBorrowedBooksAndArchive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112181235257_ModifyArchive.cs" />
+    <Compile Include="Migrations\202112181235257_ModifyArchive.Designer.cs">
+      <DependentUpon>202112181235257_ModifyArchive.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -349,6 +354,13 @@
     <Content Include="Views\Archive\Index.cshtml" />
     <Content Include="Views\Archive\ArchiveListByUser.cshtml" />
     <Content Include="Views\Shared\AccessDenied.cshtml" />
+    <Content Include="Views\BookTag\Create.cshtml" />
+    <Content Include="Views\BookTag\Delete.cshtml" />
+    <Content Include="Views\BookTag\Details.cshtml" />
+    <Content Include="Views\BookTag\Edit.cshtml" />
+    <Content Include="Views\BookTag\Index.cshtml" />
+    <Content Include="Views\Manage\AdminIndex.cshtml" />
+    <Content Include="Views\Account\RegisterEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -394,6 +406,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202112022335395_AddBorrowedBooksAndArchive.resx">
       <DependentUpon>202112022335395_AddBorrowedBooksAndArchive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112181235257_ModifyArchive.resx">
+      <DependentUpon>202112181235257_ModifyArchive.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

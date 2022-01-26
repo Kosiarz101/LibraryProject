@@ -6,12 +6,25 @@
 @using Microsoft.AspNet.Identity
 
 <h2>Details</h2>
+<hr />
 <div id="Message">
 
 </div>
-
-<div>
-    <hr />
+@if (User.IsInRole("Employee") || User.IsInRole("Admin"))
+{
+    <div class="panel panel-primary">
+        <div class="panel-heading">Database Manipulation</div>
+        <div class="panel-body">
+            <div class="d-flex justify-content-between">
+                @Html.ActionLink("Edit", "Edit", "Book", new { id = Model.Book.Id }, new { @Class = "btn btn-primary m-1" })
+                @Html.ActionLink("Add Tag", "Create", "BookTag", new { id = Model.Book.Id }, new { @Class = "btn btn-primary m-1" })
+                @Html.ActionLink("Delete Tag", "Delete", "BookTag", new { BookId = Model.Book.Id}, new { @Class = "btn btn-primary m-1" })
+                @Html.ActionLink("Delete", "Delete", "Book", new { id = Model.Book.Id }, new { @Class = "btn btn-danger m-1" })
+            </div>
+        </div>
+    </div>
+}
+<div>   
     <div class="row d-flex">
         <div class="col-sm-3">
             <h3>
@@ -56,13 +69,20 @@
                 <p style="color:red">Out of stock </p>
             </div>
             <div class="col-auto">
-                @Ajax.ActionLink("Join a queue", "CreateAjax", "Queue", new { BookId = Model.Book.Id, UserId = User.Identity.GetUserId() }, new AjaxOptions
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @Ajax.ActionLink("Join a queue", "CreateAjax", "Queue", new { BookId = Model.Book.Id, UserId = User.Identity.GetUserId() }, new AjaxOptions
                     {
                          UpdateTargetId = "Message",
                          InsertionMode = InsertionMode.Replace,
                          HttpMethod = "POST" // <-- HTTP method
                     }
                     , new { @class = "btn btn-primary", @Id = "link" })
+                }
+                else
+                {
+                    <a style="display: inline;">You must be logged to join a queue. </a>
+                }
             </div>
         }
         else
@@ -107,11 +127,11 @@
                 <h4>Tags</h4>
                 @foreach (var tag in Model.Tags)
                 {
-                    @Html.ActionLink(tag.Name, "TagSearch", "Tag", new { name = tag.Name}, new { @Class="mx-2"})
+                    @Html.ActionLink(tag.Name, "TagSearch", "Tag", new { name = tag.Name }, new { @Class = "mx-2" })
                 }
             </div>
-            
-        </div>       
+
+        </div>
     }
 
 </div>
