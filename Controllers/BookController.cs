@@ -150,17 +150,30 @@ namespace LibraryProject.Controllers
             List<Book> books = new List<Book>();
             if (id == null)
             {
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return null;
             }
             Book book = db.Books.Find(id);
             if (book == null)
             {
-                //return HttpNotFound();
+                return null;
             }
             if (Session["shoppingcart"] is List<Book>)
             {
                 books = (List<Book>)Session["shoppingcart"];               
             }
+            
+            //Check if book limit is reached
+            int bookLimit = Int32.Parse(db.GlobalParameters.Where(x => x.Name.ToLower() == "book limit").FirstOrDefault().Value);
+            string userId = User.Identity.GetUserId();
+            int borrowedBooks = db.BorrowedBooks.Where(x => x.ApplicationUserId == userId).Count();
+            int awaitedBooks = db.AwaitedBooks.Where(x => x.ApplicationUserId == userId).Count();
+            if(bookLimit - (books.Count + borrowedBooks + awaitedBooks) < 0)
+            {
+                ViewData["message"] = "You reach book limit. You cannot order more books!";
+                ViewData["messageType"] = "danger";
+                return PartialView("_MessageAlert");
+            }
+
             if (!books.Exists(x => x.Id == id))
                 books.Add(book);
             Session["shoppingcart"] = books;
