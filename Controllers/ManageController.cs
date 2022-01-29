@@ -12,6 +12,7 @@ using System.Collections;
 using System.Net;
 using System.Data.Entity;
 using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LibraryProject.Controllers
 {
@@ -370,6 +371,34 @@ namespace LibraryProject.Controllers
                              .Include(x => x.Queues)
                              .FirstOrDefaultAsync();
             return View(user);
+        }
+        //GET: /Manage/EmployeeRegistrationConfirmations
+        public ActionResult UserRegistrationConfirmations()
+        {
+            List<ApplicationUser> allUsers = db.Users.ToList();
+            List<ApplicationUser> users = new List<ApplicationUser>();
+            foreach (var user in allUsers)
+            {
+                if(user.Roles.Count == 0)
+                {
+                    users.Add(user);
+                }
+            }         
+            
+            return View(users);
+        }
+
+        //POST: /Manage/EmployeeRegistrationConfirmations
+        [HttpPost]
+        public ActionResult UserRegistrationConfirmations(string id)
+        {
+            if(id == null)
+            {
+                return null;
+            }
+            ApplicationUser user = db.Users.Find(id);
+            UserManager.AddToRole(user.Id, "Reader");
+            return View();
         }
 
         //

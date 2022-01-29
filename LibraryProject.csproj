@@ -367,6 +367,7 @@
     <Content Include="Views\Manage\AdminIndex.cshtml" />
     <Content Include="Views\Account\RegisterEmployee.cshtml" />
     <Content Include="Views\Manage\ChangeGlobalParameters.cshtml" />
+    <Content Include="Views\Manage\UserRegistrationConfirmations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
