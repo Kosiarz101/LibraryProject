@@ -94,6 +94,7 @@
         </dd>
     </dl>
 </div>
+
 <div id="personalContent" class="display-none">
     <h4>Edit Personal Data</h4>
     <hr />
@@ -103,9 +104,13 @@
     <hr />
     @{Html.RenderAction("ChangePassword", "Manage");}
 </div>
+
 <div id="databaseContent" class="display-none">
     @{Html.RenderPartial("EmployeeDatabase", "Manage");}
+    <h4>Change Global Parameters</h4>
+    @{Html.RenderAction("ChangeGlobalParameters", "Manage");}
 </div>
+
 <div id="booksContent" class="display-none">
     @Html.ActionLink("Create Employee Account","RegisterEmployee", "Account", null, new { @Class="btn btn-default" })
     <div class="form-inline" style="margin-top: 6px;">
@@ -118,6 +123,7 @@
 
     </div>
 </div>
+
 <div id="articlesContent" class="display-none">
     @{Html.RenderAction("Index", "Information");}
 </div>

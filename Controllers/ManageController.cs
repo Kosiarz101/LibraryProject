@@ -11,6 +11,7 @@ using System.Web.Security;
 using System.Collections;
 using System.Net;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace LibraryProject.Controllers
 {
@@ -260,7 +261,7 @@ namespace LibraryProject.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
             AddErrors(result);
-            return View(model);
+            return RedirectToAction("Index", new { Message = result.Errors.ElementAt(0) });
         }
         public ActionResult ChangeUserData()
         {
@@ -322,6 +323,28 @@ namespace LibraryProject.Controllers
 
             // Jeśli dotarliśmy tak daleko, oznacza to, że wystąpił błąd. Wyświetl ponownie formularz
             return View(model);
+        }
+
+        //GET: /Manage/ChangeGlobalParameters
+        public ActionResult ChangeGlobalParameters()
+        {
+            List<GlobalParameter> listOfParameters = db.GlobalParameters.ToList();
+            return View(listOfParameters);
+        }
+        [HttpPost]
+        //POST: /Manage/ChangeGlobalParameters
+        public ActionResult ChangeGlobalParameters(List<GlobalParameter> globalParameters)
+        {
+            if(globalParameters == null)
+            {
+                return HttpNotFound();
+            }
+            for(int i=0; i<globalParameters.Count; i++)
+            {
+                db.Entry(globalParameters[i]).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
 
         //GET: /Manage/EmployeeSearchUser
