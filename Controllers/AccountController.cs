@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LibraryProject.Models;
 using System.Net.Mail;
+using System.Net;
 
 namespace LibraryProject.Controllers
 {
@@ -331,6 +332,49 @@ namespace LibraryProject.Controllers
             }
             AddErrors(result);
             return View();
+        }
+
+        // GET: /Account/DeleteAccount
+        [AuthorizeCorrectRedirection(Roles = "Admin")]
+        public ActionResult DeleteAccount(string id)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = db.Users.Find(id);
+            if(user == null)
+            {
+                return HttpNotFound();
+            }
+            // Żądaj przekierowania do dostawcy logowania zewnętrznego
+            return View(user);
+        }
+        // POST: /Account/DeleteAccount
+        [HttpPost, ActionName("DeleteAccount")]
+        [AuthorizeCorrectRedirection(Roles = "Admin")]
+        public async Task<ActionResult> DeleteAccountConfirmed(string id)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            var user = await UserManager.FindByIdAsync(id);
+            var logins = user.Logins;
+            var rolesForUser = await UserManager.GetRolesAsync(id);
+            foreach (var login in logins.ToList())
+            {
+                await UserManager.RemoveLoginAsync(login.UserId, new UserLoginInfo(login.LoginProvider, login.ProviderKey));
+            }
+
+            if (rolesForUser.Count() > 0)
+            {
+                foreach (var item in rolesForUser.ToList())
+                {
+                    // item should be the name of the role
+                    var result = await UserManager.RemoveFromRoleAsync(user.Id, item);
+                }
+            }
+            await UserManager.DeleteAsync(user);
+            return RedirectToAction("Index", "Manage");
         }
 
         //

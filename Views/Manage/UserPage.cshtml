@@ -72,7 +72,7 @@
                                     <input type="hidden" name="BookId" value="@item.BookId" />
                                     <button type="submit" class="fake-button">Add To Archive</button>
                                 }
-                                @Html.ActionLink("Details", "Details", "Book", new { id = item.BookId}, null)
+                                @Html.ActionLink("Details", "Details", "Book", new { id = item.BookId }, null)
                             </td>
                         </tr>
                     }
@@ -212,6 +212,16 @@
             }
         </div>
     </div>
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="row d-flex">
+            <div class="col-sm-12">
+                <h3>Delete This Account</h3>
+                <hr/>
+                    @Html.ActionLink("Delete", "DeleteAccount", "Account", new {id = Model.Id}, new { @class="btn btn-danger" })
+            </div>
+        </div>
+    }
 </div>
 @section Scripts
 {
