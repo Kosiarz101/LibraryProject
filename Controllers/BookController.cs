@@ -167,7 +167,7 @@ namespace LibraryProject.Controllers
             string userId = User.Identity.GetUserId();
             int borrowedBooks = db.BorrowedBooks.Where(x => x.ApplicationUserId == userId).Count();
             int awaitedBooks = db.AwaitedBooks.Where(x => x.ApplicationUserId == userId).Count();
-            if(bookLimit - (books.Count + borrowedBooks + awaitedBooks) < 0)
+            if(bookLimit - (books.Count + 1 + borrowedBooks + awaitedBooks) < 0)
             {
                 ViewData["message"] = "You reach book limit. You cannot order more books!";
                 ViewData["messageType"] = "danger";

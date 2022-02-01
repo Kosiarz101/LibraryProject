@@ -20,7 +20,7 @@ namespace LibraryProject.Controllers
             homeIndexViewModel.Information = db.Informations.ToList();
             homeIndexViewModel.Books = db.Books
                 .OrderByDescending(x => x.CreationDate)
-                .Take(6).ToList();
+                .Take(5).ToList();
             return View(homeIndexViewModel);
         }
 

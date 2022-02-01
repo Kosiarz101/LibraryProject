@@ -41,6 +41,14 @@
 .cancel-nav-a:hover {
     color: #ffffff !important;
 }
+
+.navbar-inverse .navbar-brand {
+  color: #ffffff !important;
+}
+.navbar-inverse .navbar-brand:hover {
+    color: #9d9d9d !important;
+}
+
 .m-0 {
     margin: 0 !important;
 }

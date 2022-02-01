@@ -55,7 +55,7 @@ namespace LibraryProject.Controllers
             {
                 db.Informations.Add(information);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Manage");
             }
 
             return View(information);
@@ -89,7 +89,7 @@ namespace LibraryProject.Controllers
             {
                 db.Entry(information).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Information", new {id = information.Id });
             }
             return View(information);
         }        
@@ -116,7 +116,7 @@ namespace LibraryProject.Controllers
             Information information = db.Informations.Find(id);
             db.Informations.Remove(information);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Manage");
         }
 
         protected override void Dispose(bool disposing)

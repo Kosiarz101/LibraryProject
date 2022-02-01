@@ -1,13 +1,5 @@
-﻿@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-<div id="message" class="alert alert-dismissible" role="alert">
+﻿<div id="message" class="alert alert-dismissible alert-@ViewData["messageType"].ToString().ToLower()" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     @ViewData["message"]
 </div>
-<script type="text/javascript">
-    debugger;
-    $(document).ready(function () {
-            var s = "alert-" + "@ViewData["messageType"].ToString().ToLower()";
-            $("#message").addClass(s);
-    });
-</script>
+
